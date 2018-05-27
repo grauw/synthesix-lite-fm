@@ -44,6 +44,7 @@ COM_Main:
 	INCLUDE "Hook.asm"
 	INCLUDE "MidiIn.asm"
 	INCLUDE "MSXMidi.asm"
+	INCLUDE "MSXMusic.asm"
 	INCLUDE "Synthesizer.asm"
 
 	ENDS

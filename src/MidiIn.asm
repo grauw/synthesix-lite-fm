@@ -58,131 +58,147 @@ MidiIn_Destruct:
 	pop ix
 	ret
 
-; ix = this
+; iy = this
 ; f <- nz: a message can be read
 ; Modifies: af
-MidiIn_HasMessage:
-	ld a,(ix + MidiIn.bufferHead)
-	cp (ix + MidiIn.bufferTail)
+MidiIn_HasMessageIY:
+	ld a,(iy + MidiIn.bufferHead)
+	cp (iy + MidiIn.bufferTail)
 	ret
 
-; ix = this
+; iy = this
 ; a = byte
 ; f <- z: buffer full
 ; Modifies: af, hl
-MidiIn_WriteByte:
+MidiIn_WriteByteIY:
 	cp 0F8H
 	call nc,System_ThrowException
-	ld l,(ix + MidiIn.bufferHead)
-	ld h,(ix + MidiIn.bufferHead + 1)
+	ld l,(iy + MidiIn.bufferHead)
+	ld h,(iy + MidiIn.bufferHead + 1)
 	ld (hl),a
 	inc l
-	ld (ix + MidiIn.bufferHead),l
-	ld a,(ix + MidiIn.bufferTail)
+	ld (iy + MidiIn.bufferHead),l
+	ld a,(iy + MidiIn.bufferTail)
 	cp l
 	ret nz
 	call System_ThrowException
 
-; ix = this
+; iy = this
 ; a <- byte
 ; f <- z: buffer empty
 ; Modifies: af, hl
-MidiIn_ReadByte:
-	ld l,(ix + MidiIn.bufferTail)
-	ld h,(ix + MidiIn.bufferTail + 1)
-	ld a,(ix + MidiIn.bufferHead)
+MidiIn_ReadByteIY:
+	ld l,(iy + MidiIn.bufferTail)
+	ld h,(iy + MidiIn.bufferTail + 1)
+	ld a,(iy + MidiIn.bufferHead)
 	cp l
 	ret z
 	ld a,(hl)
 	inc l
-	ld (ix + MidiIn.bufferTail),l
+	ld (iy + MidiIn.bufferTail),l
 	ret nz
 	dec l
 	ret
 
-; ix = this
+; iy = this
+; a <- byte
+; Modifies: af, hl
+MidiIn_ReadByteBlockingIY: PROC
+	ld l,(iy + MidiIn.bufferTail)
+	ld h,(iy + MidiIn.bufferTail + 1)
+Loop:
+	ld a,(iy + MidiIn.bufferHead)
+	cp l
+	jr z,Loop
+	ld a,(hl)
+	inc l
+	ld (iy + MidiIn.bufferTail),l
+	ret
+	ENDP
+
+; iy = this
 ; a = channel
 ; b = note
 ; c = velocity
-MidiIn_NoteOff:
+MidiIn_NoteOffIY:
 	or 10000000B
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ld a,b
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ld a,c
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ret
 
-; ix = this
+; iy = this
 ; a = channel
 ; b = note
 ; c = velocity
-MidiIn_NoteOn:
+MidiIn_NoteOnIY:
 	or 10010000B
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ld a,b
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ld a,c
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ret
 
-; ix = this
+; iy = this
 ; a = channel
 ; b = note
 ; c = pressure
-MidiIn_PolyPressure:
+MidiIn_PolyPressureIY:
 	or 10100000B
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ld a,b
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ld a,c
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ret
 
-; ix = this
+; iy = this
 ; a = channel
 ; b = controller
 ; c = value
-MidiIn_ControlChange:
+MidiIn_ControlChangeIY:
 	or 10110000B
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ld a,b
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ld a,c
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ret
 
-; ix = this
+; iy = this
 ; a = channel
 ; b = program
-MidiIn_ProgramChange:
+MidiIn_ProgramChangeIY:
 	or 11000000B
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ld a,b
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ret
 
-; ix = this
+; iy = this
 ; a = channel
 ; b = pressure
-MidiIn_ChannelPressure:
+MidiIn_ChannelPressureIY:
 	or 11010000B
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ld a,b
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ret
 
-; ix = this
+; iy = this
 ; a = channel
 ; b = coarse
 ; c = fine
-MidiIn_PitchBend:
+MidiIn_PitchBendIY:
 	or 11100000B
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ld a,b
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ld a,c
-	call MidiIn_WriteByte
+	call MidiIn_WriteByteIY
 	ret
 
 ;
