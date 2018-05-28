@@ -46,6 +46,7 @@ COM_Main:
 	INCLUDE "MSXMidi.asm"
 	INCLUDE "MSXMusic.asm"
 	INCLUDE "Synthesizer.asm"
+	INCLUDE "Channel.asm"
 
 	ENDS
 
