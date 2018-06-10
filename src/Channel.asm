@@ -24,9 +24,14 @@ Channel: MACRO ?channel
 	pitchBend:
 		dw 4000H
 	controllers:
-		REPT 128
-		db 0
-		ENDM
+		db 0, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 0, 0, 0, 0  ; CC   0-15
+		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC  16-31
+		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC  32-47
+		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC  48-63
+		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC  64-79
+		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC  80-95
+		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC  96-111
+		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC 112-127
 	_size:
 	ENDM
 
@@ -82,7 +87,9 @@ Channel_ControlChange:
 	add ix,de
 	ld (ix + Channel.controllers),a
 	pop ix
-	jp Channel_UpdateVolumeInstrument
+	cp 7
+	jp z,Channel_UpdateVolumeInstrument
+	ret
 
 ; a = program
 Channel_ProgramChange:
@@ -129,7 +136,7 @@ NoSustain:
 	ENDP
 
 ; ix = this
-Channel_UpdateVolumeInstrument:
+Channel_UpdateVolumeInstrument: PROC
 	ld a,(ix + Channel.program)
 	add a,a
 	add a,a
@@ -137,6 +144,11 @@ Channel_UpdateVolumeInstrument:
 	add a,a
 	ld d,a
 	ld a,(ix + Channel.velocity)
+	add a,(ix + Channel.controllers + 7)
+	sub 127
+	jr nc,NoClip
+	xor a
+NoClip:
 	cpl
 	rrca
 	rrca
@@ -147,6 +159,7 @@ Channel_UpdateVolumeInstrument:
 	ld a,30H
 	add a,(ix + Channel.channel)
 	jp Channel_WriteRegister
+	ENDP
 
 ;
 Channel_frequencyTable:
