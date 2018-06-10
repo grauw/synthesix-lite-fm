@@ -10,6 +10,10 @@ Synthesizer: MACRO
 		MSXMusic
 	channels:
 		REPT Synthesizer_CHANNELS, ?channel
+		dw channelInstances + ?channel * Channel._size
+		ENDM
+	channelInstances:
+		REPT Synthesizer_CHANNELS, ?channel
 		Channel ?channel
 		ENDM
 	ENDM
@@ -31,7 +35,7 @@ Synthesizer_Construct: PROC
 	ld e,ixl
 	ld d,ixh
 	add hl,de
-	ld de,Synthesizer.channels
+	ld de,Synthesizer.channelInstances
 	add ix,de
 	ex de,hl
 	ld b,Synthesizer_CHANNELS
@@ -74,15 +78,15 @@ Synthesizer_GetMSXMusic:
 ; ix = this
 ; ix <- channel
 Synthesizer_GetChannel:
+	and 0FH
 	add a,a
-	add a,a
-	add a,a
-	add a,a  ; Channel._size (16)
 	ld e,a
 	ld d,0
 	add ix,de
-	ld de,Synthesizer.channels
-	add ix,de
+	ld e,(ix + Synthesizer.channels)
+	ld d,(ix + Synthesizer.channels + 1)
+	ld ixl,e
+	ld ixh,d
 	ret
 
 ; ix = this

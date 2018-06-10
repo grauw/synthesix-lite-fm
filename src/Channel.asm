@@ -17,8 +17,6 @@ Channel: MACRO ?channel
 		db 0
 	volumeInstrument:
 		db 0
-	padding:
-		ds 8
 	_size:
 	ENDM
 
