@@ -19,6 +19,10 @@ Channel: MACRO ?channel
 		db 0
 	program:
 		db 0
+	pressure:
+		db 0
+	pitchBend:
+		dw 4000H
 	controllers:
 		REPT 128
 		db 0
@@ -62,6 +66,11 @@ Channel_NoteOn:
 ; a = pressure
 ; b = key
 Channel_PolyPressure:
+	ld d,a
+	ld a,(ix + Channel.key)
+	cp b
+	ret nz
+	ld (ix + Channel.pressure),d
 	ret
 
 ; a = value
@@ -82,11 +91,14 @@ Channel_ProgramChange:
 
 ; a = pressure
 Channel_ChannelPressure:
+	ld (ix + Channel.pressure),a
 	ret
 
 ; a = bend MSB
 ; b = bend LSB
 Channel_PitchBendChange:
+	ld (ix + Channel.pitchBend),b
+	ld (ix + Channel.pitchBend + 1),a
 	ret
 
 ; ix = this
