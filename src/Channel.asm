@@ -91,6 +91,8 @@ Channel_ControlChange:
 	jp z,Channel_UpdateVolumeInstrument
 	cp 64
 	jp z,Channel_UpdateKeyFrequency
+	cp 68
+	jp z,Channel_UpdateKeyFrequency
 	ret
 
 ; a = program
@@ -124,6 +126,9 @@ Channel_UpdateKeyFrequency: PROC
 	call Channel_WriteRegister
 	inc hl
 	ld a,(ix + Channel.gate)
+	or (ix + Channel.controllers + 68)
+	rrca
+	rrca
 	and 00010000B
 	or (hl)
 	ld d,a
