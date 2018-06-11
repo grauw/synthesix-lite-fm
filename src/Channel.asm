@@ -89,6 +89,8 @@ Channel_ControlChange:
 	pop ix
 	cp 7
 	jp z,Channel_UpdateVolumeInstrument
+	cp 64
+	jp z,Channel_UpdateKeyFrequency
 	ret
 
 ; a = program
@@ -126,8 +128,10 @@ Channel_UpdateKeyFrequency: PROC
 	or (hl)
 	ld d,a
 	ld a,(ix + Channel.offVelocity)
+	cpl
+	or (ix + Channel.controllers + 64)
 	bit 6,a
-	jr nz,NoSustain
+	jr z,NoSustain
 	set 5,d
 NoSustain:
 	ld a,20H
