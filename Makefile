@@ -1,7 +1,8 @@
 COPY_TARGET = /Volumes/MSXDOS2
 
 all:
-	mkdir -p bin
+	mkdir -p bin gen
+	node tools/fnumgen.js > gen/FNumTable.asm
 	java -jar tools/glass.jar -I gen -I lib/neonlib/src src/COM.asm bin/synthefm.com bin/synthefm.sym
 
 dist: all
