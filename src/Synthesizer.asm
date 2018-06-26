@@ -9,17 +9,46 @@ Synthesizer: MACRO
 	msxMusic:
 		MSXMusic
 	channels:
-		REPT Synthesizer_CHANNELS, ?channel
-		dw channelInstances + ?channel * Channel._size
-		ENDM
-	channelInstances:
-		REPT Synthesizer_CHANNELS, ?channel
-		Channel msxMusic, ?channel
-		ENDM
+		dw opllChannel1.channel
+		dw opllChannel2.channel
+		dw opllChannel3.channel
+		dw opllChannel4.channel
+		dw opllChannel5.channel
+		dw opllChannel6.channel
+		dw opllChannel7.channel
+		dw opllChannel8.channel
+		dw opllChannel9.channel
+		dw dummyChannel
+		dw dummyChannel
+		dw dummyChannel
+		dw dummyChannel
+		dw dummyChannel
+		dw dummyChannel
+		dw dummyChannel
+	opllChannel1: OPLLBasicChannel msxMusic, 0
+	opllChannel2: OPLLChannel msxMusic, 1
+	opllChannel3: OPLLChannel msxMusic, 2
+	opllChannel4: OPLLChannel msxMusic, 3
+	opllChannel5: OPLLChannel msxMusic, 4
+	opllChannel6: OPLLChannel msxMusic, 5
+	opllChannel7: OPLLChannel msxMusic, 6
+	opllChannel8: OPLLChannel msxMusic, 7
+	opllChannel9: OPLLChannel msxMusic, 8
+	dummyChannel: Channel
+	Update:
+		call opllChannel1.Update
+		call opllChannel2.Update
+		call opllChannel3.Update
+		call opllChannel4.Update
+		call opllChannel5.Update
+		call opllChannel6.Update
+		call opllChannel7.Update
+		call opllChannel8.Update
+		jp opllChannel9.Update
 	ENDM
 
 ; ix = this
-Synthesizer_Construct: PROC
+Synthesizer_Construct:
 	push ix
 	call Synthesizer_GetMidiIn
 	call MSXMidi_Construct
@@ -30,22 +59,39 @@ Synthesizer_Construct: PROC
 	call nc,System_ThrowException
 	call MSXMusic_Construct
 	pop ix
-	push ix
-	ld de,Synthesizer.channelInstances
+	ld de,Synthesizer.opllChannel1
 	add ix,de
-	ld b,Synthesizer_CHANNELS
-Loop:
-	push bc
-	push de
+	call OPLLBasicChannel_Construct
+	ld de,Synthesizer.opllChannel2 - Synthesizer.opllChannel1
+	add ix,de
+	call OPLLChannel_Construct
+	ld de,Synthesizer.opllChannel3 - Synthesizer.opllChannel2
+	add ix,de
+	call OPLLChannel_Construct
+	ld de,Synthesizer.opllChannel4 - Synthesizer.opllChannel3
+	add ix,de
+	call OPLLChannel_Construct
+	ld de,Synthesizer.opllChannel5 - Synthesizer.opllChannel4
+	add ix,de
+	call OPLLChannel_Construct
+	ld de,Synthesizer.opllChannel6 - Synthesizer.opllChannel5
+	add ix,de
+	call OPLLChannel_Construct
+	ld de,Synthesizer.opllChannel7 - Synthesizer.opllChannel6
+	add ix,de
+	call OPLLChannel_Construct
+	ld de,Synthesizer.opllChannel8 - Synthesizer.opllChannel7
+	add ix,de
+	call OPLLChannel_Construct
+	ld de,Synthesizer.opllChannel9 - Synthesizer.opllChannel8
+	add ix,de
+	call OPLLChannel_Construct
+	ld de,Synthesizer.dummyChannel - Synthesizer.opllChannel9
+	add ix,de
 	call Channel_Construct
-	ld de,Channel._size
+	ld de,-Synthesizer.dummyChannel
 	add ix,de
-	pop de
-	pop bc
-	djnz Loop
-	pop ix
 	ret
-	ENDP
 
 ; ix = this
 Synthesizer_Destruct:
@@ -92,9 +138,14 @@ Synthesizer_Run: PROC
 	ex (sp),ix
 	pop iy
 Loop:
+	push iy
 	push ix
 	call Synthesizer_Process
 	pop ix
+	push ix
+	call Synthesizer_Update
+	pop ix
+	pop iy
 	jr Loop
 	push ix
 	call Synthesizer_GetMidiIn
@@ -102,6 +153,13 @@ Loop:
 	pop ix
 	ret
 	ENDP
+
+; iy = MIDI In
+; ix = this
+Synthesizer_Update:
+	ld de,Synthesizer.Update
+	add ix,de
+	jp ix
 
 ; ix = this
 ; iy = MIDI In
