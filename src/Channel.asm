@@ -2,14 +2,7 @@
 ;
 ;
 Channel: MACRO
-	gate:
-		db 0
-	key:
-		db 0
-	velocity:
-		db 0
-	offVelocity:
-		db 0
+	note: Note
 	program:
 		db 0
 	pressure:
@@ -36,29 +29,29 @@ Channel_Construct:
 ; b = key
 Channel_NoteOff:
 	ld d,a
-	ld a,(ix + Channel.key)
+	ld a,(ix + Channel.note.key)
 	cp b
 	ret nz
-	ld (ix + Channel.gate),0
-	ld (ix + Channel.offVelocity),d
+	ld (ix + Channel.note.gate),0
+	ld (ix + Channel.note.offVelocity),d
 	ret
 
 ; a = velocity
 ; b = key
 Channel_NoteOn:
-	ld (ix + Channel.gate),127
-	ld (ix + Channel.key),b
-	ld (ix + Channel.velocity),a
+	ld (ix + Channel.note.gate),127
+	ld (ix + Channel.note.key),b
+	ld (ix + Channel.note.velocity),a
 	ret
 
 ; a = pressure
 ; b = key
 Channel_PolyPressure:
 	ld d,a
-	ld a,(ix + Channel.key)
+	ld a,(ix + Channel.note.key)
 	cp b
 	ret nz
-	ld (ix + Channel.pressure),d
+	ld (ix + Channel.note.pressure),d
 	ret
 
 ; a = value

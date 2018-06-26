@@ -4,8 +4,8 @@
 OPLLChannel: MACRO ?msxMusic, ?channel
 	channel: Channel
 	instrument: Clamp channel.program, Constants_instance + 0, Constants_instance + 15
-	opllNote: OPLLNote ?msxMusic, ?channel, instrument.value, channel.velocity, channel.controllers + 7, channel.gate,
-	                   channel.controllers + 68, channel.key, channel.offVelocity, channel.controllers + 64
+	opllNote: OPLLNote ?msxMusic, ?channel, instrument.value, channel.note.velocity, channel.controllers + 7, channel.note.gate,
+	                   channel.controllers + 68, channel.note.key, channel.note.offVelocity, channel.controllers + 64
 	Update:
 		call instrument.Update
 		jp opllNote.Update
