@@ -2,11 +2,6 @@
 ;
 ;
 Channel: MACRO ?channel
-	; a = register
-	; d = value
-	WriteRegister:
-		jp System_ThrowException
-	writeRegister: equ $ - 2
 	channel:
 		db ?channel
 	basicChannel:
@@ -35,27 +30,25 @@ Channel: MACRO ?channel
 		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC  96-111
 		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC 112-127
 	opllNote: OPLLNote ?channel, program, velocity, controllers + 7, gate, controllers + 68, key, offVelocity, controllers + 64
+	opllTone: OPLLTone controllers + 80, controllers + 81, controllers + 82, controllers + 83, controllers + 84,
+	                   controllers + 16, controllers + 19, controllers + 20, controllers + 21, controllers + 22, controllers + 23,
+	                   controllers + 88, controllers + 89, controllers + 90, controllers + 91, controllers + 92,
+	                   controllers + 24, controllers + 25, controllers + 26, controllers + 27, controllers + 28, controllers + 29, controllers + 30, controllers + 31
 	_size:
 	ENDM
 
 ; de = MSX Music
 ; ix = this
 Channel_Construct:
-	ld hl,MSXMusic.WriteRegister
-	add hl,de
-	ld (ix + Channel.writeRegister),l
-	ld (ix + Channel.writeRegister + 1),h
 	ld bc,Channel.opllNote
 	add ix,bc
 	call OPLLNote_Construct
-	ld bc,-Channel.opllNote
+	ld bc,Channel.opllTone - Channel.opllNote
 	add ix,bc
-	call Channel_UpdateBasicControllers
+	call OPLLTone_Construct
+	ld bc,-Channel.opllTone
+	add ix,bc
 	ret
-
-; ix = this
-Channel_WriteRegister:
-	jp ix
 
 ; a = velocity
 ; b = key
@@ -109,11 +102,11 @@ Basic:
 	cp 16
 	ret c
 	cp 32
-	jp c,Channel_UpdateBasicControllers
+	jp c,Channel_UpdateTone
 	cp 80
 	ret c
 	cp 96
-	jp c,Channel_UpdateBasicControllers
+	jp c,Channel_UpdateTone
 	ret
 	ENDP
 
@@ -141,159 +134,7 @@ Channel_UpdateNote:
 	jp ix
 
 ; ix = this
-Channel_UpdateBasicControllers:
-	ld a,(ix + Channel.controllers + 88)
-	rlca
-	and 10000000B
-	ld d,a
-	ld a,(ix + Channel.controllers + 89)
-	and 01000000B
-	or d
-	ld d,a
-	ld a,(ix + Channel.controllers + 90)
-	rrca
-	and 00100000B
-	or d
-	ld d,a
-	ld a,(ix + Channel.controllers + 91)
-	rrca
-	rrca
-	and 00010000B
-	or d
-	ld d,a
-	ld a,(ix + Channel.controllers + 24)
-	rrca
-	rrca
-	rrca
-	and 00001111B
-	or d
-	ld d,a
-	ld a,00H
-	call Channel_WriteRegister
-	ld a,(ix + Channel.controllers + 80)
-	and 10000000B
-	rlca
-	ld d,a
-	ld a,(ix + Channel.controllers + 81)
-	and 01000000B
-	or d
-	ld d,a
-	ld a,(ix + Channel.controllers + 82)
-	rrca
-	and 00100000B
-	or d
-	ld d,a
-	ld a,(ix + Channel.controllers + 83)
-	rrca
-	rrca
-	and 00010000B
-	or d
-	ld d,a
-	ld a,(ix + Channel.controllers + 16)
-	rrca
-	rrca
-	rrca
-	and 00001111B
-	or d
-	ld d,a
-	ld a,01H
-	call Channel_WriteRegister
-	ld a,(ix + Channel.controllers + 27)
-	rlca
-	and 11000000B
-	ld d,a
-	ld a,(ix + Channel.controllers + 25)
-	rrca
-	cpl
-	and 00111111B
-	or d
-	ld d,a
-	ld a,02H
-	call Channel_WriteRegister
-	ld a,(ix + Channel.controllers + 19)
-	rlca
-	and 11000000B
-	ld d,a
-	ld a,(ix + Channel.controllers + 84)
-	rrca
-	rrca
-	and 00010000B
-	or d
-	ld d,a
-	ld a,(ix + Channel.controllers + 92)
-	rrca
-	rrca
-	rrca
-	and 00001000B
-	or d
-	ld d,a
-	ld a,(ix + Channel.controllers + 26)
-	rrca
-	rrca
-	rrca
-	rrca
-	and 00000111B
-	or d
-	ld d,a
-	ld a,03H
-	call Channel_WriteRegister
-	ld a,(ix + Channel.controllers + 28)
-	rlca
-	cpl
-	and 11110000B
-	ld d,a
-	ld a,(ix + Channel.controllers + 29)
-	rrca
-	rrca
-	rrca
-	cpl
-	and 00001111B
-	or d
-	ld d,a
-	ld a,04H
-	call Channel_WriteRegister
-	ld a,(ix + Channel.controllers + 20)
-	rlca
-	cpl
-	and 11110000B
-	ld d,a
-	ld a,(ix + Channel.controllers + 21)
-	rrca
-	rrca
-	rrca
-	cpl
-	and 00001111B
-	or d
-	ld d,a
-	ld a,05H
-	call Channel_WriteRegister
-	ld a,(ix + Channel.controllers + 30)
-	rlca
-	cpl
-	and 11110000B
-	ld d,a
-	ld a,(ix + Channel.controllers + 31)
-	rrca
-	rrca
-	rrca
-	cpl
-	and 00001111B
-	or d
-	ld d,a
-	ld a,06H
-	call Channel_WriteRegister
-	ld a,(ix + Channel.controllers + 22)
-	rlca
-	cpl
-	and 11110000B
-	ld d,a
-	ld a,(ix + Channel.controllers + 23)
-	rrca
-	rrca
-	rrca
-	cpl
-	and 00001111B
-	or d
-	ld d,a
-	ld a,07H
-	jp Channel_WriteRegister
+Channel_UpdateTone:
+	ld de,Channel.opllTone.Update
+	add ix,de
+	jp ix
