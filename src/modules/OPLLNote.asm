@@ -1,7 +1,7 @@
 ;
 ;
 ;
-OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?channelVolume, ?gate, ?legato, ?key, ?offVelocity, ?sustain
+OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?channelVolume, ?gate, ?key, ?offVelocity, ?sustain
 	WriteRegister: equ ?msxMusic + MSXMusic.WriteRegister
 	Update:
 		ld a,(?instrument)
@@ -40,9 +40,6 @@ OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?channelVolume, ?gate
 		call WriteRegister
 		inc hl
 		ld a,(?gate)
-		ld b,a
-		ld a,(?legato)
-		or b
 		rrca
 		rrca
 		and 00010000B

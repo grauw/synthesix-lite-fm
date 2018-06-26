@@ -54,6 +54,7 @@ COM_Main:
 	INCLUDE "modules/OPLLNote.asm"
 	INCLUDE "modules/OPLLTone.asm"
 	INCLUDE "modules/Clamp.asm"
+	INCLUDE "modules/Or.asm"
 
 	ENDS
 
