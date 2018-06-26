@@ -1,7 +1,7 @@
 ;
 ;
 ;
-OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?channelVolume, ?gate, ?key, ?sustain
+OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?gate, ?key, ?sustain
 	WriteRegister: equ ?msxMusic + MSXMusic.WriteRegister
 	Update:
 		ld a,(?instrument)
@@ -11,13 +11,6 @@ OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?channelVolume, ?gate
 		add a,a
 		ld d,a
 		ld a,(?volume)
-		ld b,a
-		ld a,(?channelVolume)
-		add a,b
-		sub 127
-		jr nc,NoClip
-		xor a
-	NoClip:
 		cpl
 		rrca
 		rrca

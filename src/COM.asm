@@ -56,6 +56,7 @@ COM_Main:
 	INCLUDE "modules/Clamp.asm"
 	INCLUDE "modules/Not.asm"
 	INCLUDE "modules/Or.asm"
+	INCLUDE "modules/Attenuate.asm"
 
 	ENDS
 
