@@ -1,7 +1,7 @@
 ;
 ;
 ;
-Channel: MACRO ?channel
+Channel: MACRO ?msxMusic, ?channel
 	channel:
 		db ?channel
 	basicChannel:
@@ -29,8 +29,8 @@ Channel: MACRO ?channel
 		db 0, 0, 127, 0, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 0  ; CC  80-95
 		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC  96-111
 		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC 112-127
-	opllNote: OPLLNote ?channel, program, velocity, controllers + 7, gate, controllers + 68, key, offVelocity, controllers + 64
-	opllTone: OPLLTone controllers + 80, controllers + 81, controllers + 82, controllers + 83, controllers + 84,
+	opllNote: OPLLNote ?msxMusic, ?channel, program, velocity, controllers + 7, gate, controllers + 68, key, offVelocity, controllers + 64
+	opllTone: OPLLTone ?msxMusic, controllers + 80, controllers + 81, controllers + 82, controllers + 83, controllers + 84,
 	                   controllers + 16, controllers + 19, controllers + 20, controllers + 21, controllers + 22, controllers + 23,
 	                   controllers + 88, controllers + 89, controllers + 90, controllers + 91, controllers + 92,
 	                   controllers + 24, controllers + 25, controllers + 26, controllers + 27, controllers + 28, controllers + 29, controllers + 30, controllers + 31

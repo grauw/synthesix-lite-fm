@@ -1,10 +1,11 @@
 ;
 ;
 ;
-OPLLTone: MACRO ?carrierTremolo, ?carrierVibrato, ?carrierEGMode, ?carrierRateKeyScale, ?carrierWaveform,
+OPLLTone: MACRO ?msxMusic, ?carrierTremolo, ?carrierVibrato, ?carrierEGMode, ?carrierRateKeyScale, ?carrierWaveform,
                 ?carrierMultiplier, ?carrierLevelKeyScale, ?carrierAttack, ?carrierDecay, ?carrierSustain, ?carrierRelease,
                 ?modulatorTremolo, ?modulatorVibrato, ?modulatorEGMode, ?modulatorRateKeyScale, ?modulatorWaveform,
                 ?modulatorMultiplier, ?modulatorLevel, ?modulatorFeedback, ?modulatorLevelKeyScale, ?modulatorAttack, ?modulatorDecay, ?modulatorSustain, ?modulatorRelease
+	WriteRegister: equ ?msxMusic + MSXMusic.WriteRegister
 	Update:
 		ld a,(?modulatorTremolo)
 		rlca
@@ -160,24 +161,11 @@ OPLLTone: MACRO ?carrierTremolo, ?carrierVibrato, ?carrierEGMode, ?carrierRateKe
 		or d
 		ld d,a
 		ld a,07H
-	; a = register base
-	; d = value
-	WriteRegister:
-		jp System_ThrowException
-	writeRegister: equ $ - 2
+		jp WriteRegister
 	ENDM
 
-; de = MSX Music
 ; ix = this
 OPLLTone_Construct:
-	ld hl,MSXMusic.WriteRegister
-	add hl,de
-	ld bc,100H
-	add ix,bc
-	ld (ix + OPLLTone.writeRegister - 100H),l
-	ld (ix + OPLLTone.writeRegister - 100H + 1),h
-	ld bc,-100H
-	add ix,bc
 	push ix
 	call OPLLTone_Update
 	pop ix

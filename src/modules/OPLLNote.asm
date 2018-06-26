@@ -1,7 +1,8 @@
 ;
 ;
 ;
-OPLLNote: MACRO ?channel, ?instrument, ?volume, ?channelVolume, ?gate, ?legato, ?key, ?offVelocity, ?sustain
+OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?channelVolume, ?gate, ?legato, ?key, ?offVelocity, ?sustain
+	WriteRegister: equ ?msxMusic + MSXMusic.WriteRegister
 	Update:
 		ld a,(?instrument)
 		add a,a
@@ -25,6 +26,7 @@ OPLLNote: MACRO ?channel, ?instrument, ?volume, ?channelVolume, ?gate, ?legato, 
 		or d
 		ld d,a
 		ld a,30H
+		add a,?channel
 		call WriteRegister
 		ld a,(?key)
 		add a,a
@@ -34,6 +36,7 @@ OPLLNote: MACRO ?channel, ?instrument, ?volume, ?channelVolume, ?gate, ?legato, 
 		add hl,de
 		ld d,(hl)
 		ld a,10H
+		add a,?channel
 		call WriteRegister
 		inc hl
 		ld a,(?gate)
@@ -55,21 +58,12 @@ OPLLNote: MACRO ?channel, ?instrument, ?volume, ?channelVolume, ?gate, ?legato, 
 		set 5,d
 	NoSustain:
 		ld a,20H
-	; a = register base
-	; d = value
-	WriteRegister:
 		add a,?channel
-		jp System_ThrowException
-	writeRegister: equ $ - 2
+		jp WriteRegister
 	ENDM
 
-; de = MSX Music
 ; ix = this
 OPLLNote_Construct:
-	ld hl,MSXMusic.WriteRegister
-	add hl,de
-	ld (ix + OPLLNote.writeRegister),l
-	ld (ix + OPLLNote.writeRegister + 1),h
 	ret
 
 ;

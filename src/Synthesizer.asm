@@ -14,7 +14,7 @@ Synthesizer: MACRO
 		ENDM
 	channelInstances:
 		REPT Synthesizer_CHANNELS, ?channel
-		Channel ?channel
+		Channel msxMusic, ?channel
 		ENDM
 	ENDM
 
@@ -31,13 +31,8 @@ Synthesizer_Construct: PROC
 	call MSXMusic_Construct
 	pop ix
 	push ix
-	ld hl,Synthesizer.msxMusic
-	ld e,ixl
-	ld d,ixh
-	add hl,de
 	ld de,Synthesizer.channelInstances
 	add ix,de
-	ex de,hl
 	ld b,Synthesizer_CHANNELS
 Loop:
 	push bc
