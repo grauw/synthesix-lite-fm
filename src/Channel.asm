@@ -34,6 +34,7 @@ Channel: MACRO ?channel
 		db 0, 0, 127, 0, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 0  ; CC  80-95
 		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC  96-111
 		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC 112-127
+	opllNote: OPLLNote ?channel, program, velocity, controllers + 7, gate, controllers + 68, key, offVelocity, controllers + 64
 	_size:
 	ENDM
 
@@ -44,6 +45,11 @@ Channel_Construct:
 	add hl,de
 	ld (ix + Channel.writeRegister),l
 	ld (ix + Channel.writeRegister + 1),h
+	ld bc,Channel.opllNote
+	add ix,bc
+	call OPLLNote_Construct
+	ld bc,-Channel.opllNote
+	add ix,bc
 	call Channel_UpdateBasicControllers
 	ret
 
@@ -60,7 +66,7 @@ Channel_NoteOff:
 	ret nz
 	ld (ix + Channel.gate),0
 	ld (ix + Channel.offVelocity),d
-	jp Channel_UpdateKeyFrequency
+	jp Channel_UpdateNote
 
 ; a = velocity
 ; b = key
@@ -68,8 +74,7 @@ Channel_NoteOn:
 	ld (ix + Channel.gate),127
 	ld (ix + Channel.key),b
 	ld (ix + Channel.velocity),a
-	call Channel_UpdateVolumeInstrument
-	jp Channel_UpdateKeyFrequency
+	jp Channel_UpdateNote
 
 ; a = pressure
 ; b = key
@@ -93,11 +98,11 @@ Channel_ControlChange: PROC
 	bit 6,(ix + Channel.basicChannel)
 	call nz,Basic
 	cp 7
-	jp z,Channel_UpdateVolumeInstrument
+	jp z,Channel_UpdateNote
 	cp 64
-	jp z,Channel_UpdateKeyFrequency
+	jp z,Channel_UpdateNote
 	cp 68
-	jp z,Channel_UpdateKeyFrequency
+	jp z,Channel_UpdateNote
 	ret
 Basic:
 	ld a,b
@@ -115,7 +120,7 @@ Basic:
 ; a = program
 Channel_ProgramChange:
 	ld (ix + Channel.program),a
-	jp Channel_UpdateVolumeInstrument
+	jp Channel_UpdateNote
 
 ; a = pressure
 Channel_ChannelPressure:
@@ -130,62 +135,10 @@ Channel_PitchBendChange:
 	ret
 
 ; ix = this
-Channel_UpdateKeyFrequency: PROC
-	ld a,(ix + Channel.key)
-	add a,a
-	ld e,a
-	ld d,0
-	ld hl,Channel_frequencyTable
-	add hl,de
-	ld d,(hl)
-	ld a,10H
-	add a,(ix + Channel.channel)
-	call Channel_WriteRegister
-	inc hl
-	ld a,(ix + Channel.gate)
-	or (ix + Channel.controllers + 68)
-	rrca
-	rrca
-	and 00010000B
-	or (hl)
-	ld d,a
-	ld a,(ix + Channel.offVelocity)
-	cpl
-	or (ix + Channel.controllers + 64)
-	bit 6,a
-	jr z,NoSustain
-	set 5,d
-NoSustain:
-	ld a,20H
-	add a,(ix + Channel.channel)
-	jp Channel_WriteRegister
-	ENDP
-
-; ix = this
-Channel_UpdateVolumeInstrument: PROC
-	ld a,(ix + Channel.program)
-	add a,a
-	add a,a
-	add a,a
-	add a,a
-	ld d,a
-	ld a,(ix + Channel.velocity)
-	add a,(ix + Channel.controllers + 7)
-	sub 127
-	jr nc,NoClip
-	xor a
-NoClip:
-	cpl
-	rrca
-	rrca
-	rrca
-	and 0FH
-	or d
-	ld d,a
-	ld a,30H
-	add a,(ix + Channel.channel)
-	jp Channel_WriteRegister
-	ENDP
+Channel_UpdateNote:
+	ld de,Channel.opllNote.Update
+	add ix,de
+	jp ix
 
 ; ix = this
 Channel_UpdateBasicControllers:
@@ -344,7 +297,3 @@ Channel_UpdateBasicControllers:
 	ld d,a
 	ld a,07H
 	jp Channel_WriteRegister
-
-;
-Channel_frequencyTable:
-	INCLUDE "FNumTable.asm"

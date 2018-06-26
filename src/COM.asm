@@ -47,6 +47,7 @@ COM_Main:
 	INCLUDE "MSXMusic.asm"
 	INCLUDE "Synthesizer.asm"
 	INCLUDE "Channel.asm"
+	INCLUDE "modules/OPLLNote.asm"
 
 	ENDS
 
