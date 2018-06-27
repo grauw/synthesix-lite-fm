@@ -7,13 +7,15 @@ OPLLChannel: MACRO ?msxMusic, ?channel
 	gate: Or channel.note.gate, channel.controllers + 68
 	sustainVelocity: Not channel.note.offVelocity
 	sustain: Or sustainVelocity.value, channel.controllers + 64
-	volume: Attenuate channel.note.velocity, channel.controllers + 7
+	volumeControllers: Attenuate channel.controllers + 7, channel.controllers + 11
+	volume: Attenuate channel.note.velocity, volumeControllers.value
 	opllNote: OPLLNote ?msxMusic, ?channel, instrument.value, volume.value, gate.value, channel.note.key, sustain.value
 	Update:
 		call instrument.Update
 		call gate.Update
 		call sustainVelocity.Update
 		call sustain.Update
+		call volumeControllers.Update
 		call volume.Update
 		jp opllNote.Update
 	ENDM
