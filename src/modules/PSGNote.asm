@@ -42,7 +42,3 @@ PSGNote: MACRO ?psg, ?channel, ?key, ?gate, ?volume
 ; ix = this
 PSGNote_Construct:
 	ret
-
-;
-PSGNote_frequencyTable:
-	INCLUDE "PSGPeriodTable.asm"

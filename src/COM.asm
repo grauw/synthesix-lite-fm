@@ -49,6 +49,7 @@ COM_Main:
 	INCLUDE "Synthesizer.asm"
 	INCLUDE "Channel.asm"
 	INCLUDE "Note.asm"
+	INCLUDE "Resources.asm"
 	INCLUDE "modules/Constants.asm"
 	INCLUDE "modules/OPLLChannel.asm"
 	INCLUDE "modules/OPLLBasicChannel.asm"

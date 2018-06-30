@@ -2,8 +2,7 @@ COPY_TARGET = /Volumes/MSXDOS2
 
 all:
 	mkdir -p bin gen
-	node tools/opllfnumgen.js > gen/OPLLFNumTable.asm
-	node tools/psgperiodgen.js > gen/PSGPeriodTable.asm
+	node tools/buildres.js > gen/Resources.asm
 	java -jar tools/glass.jar -I gen -I lib/neonlib/src src/COM.asm bin/synthefm.com bin/synthefm.sym
 
 dist: all

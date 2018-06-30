@@ -48,7 +48,3 @@ OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?gate, ?key, ?sustain
 ; ix = this
 OPLLNote_Construct:
 	ret
-
-;
-OPLLNote_frequencyTable:
-	INCLUDE "OPLLFNumTable.asm"
