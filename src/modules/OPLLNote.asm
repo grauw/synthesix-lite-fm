@@ -18,8 +18,7 @@ OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?gate, ?key, ?sustain
 		and 0FH
 		or d
 		ld d,a
-		ld a,30H
-		add a,?channel
+		ld a,30H + ?channel
 		call WriteRegister
 		ld a,(?key)
 		add a,a
@@ -28,8 +27,7 @@ OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?gate, ?key, ?sustain
 		ld hl,OPLLNote_frequencyTable
 		add hl,de
 		ld d,(hl)
-		ld a,10H
-		add a,?channel
+		ld a,10H + ?channel
 		call WriteRegister
 		inc hl
 		ld a,(?gate)
@@ -43,8 +41,7 @@ OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?gate, ?key, ?sustain
 		jr z,NoSustain
 		set 5,d
 	NoSustain:
-		ld a,20H
-		add a,?channel
+		ld a,20H + ?channel
 		jp WriteRegister
 	ENDM
 
