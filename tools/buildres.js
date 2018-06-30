@@ -1,7 +1,7 @@
 function main()
 {
-	console.log("OPLLNote_frequencyTable:");
-	console.log(new OPLLNoteTable().toAsm());
+	console.log("OPLLTone_frequencyTable:");
+	console.log(new OPLLToneTable().toAsm());
 	console.log("");
 	console.log("PSGTone_frequencyTable:");
 	console.log(new PSGToneTable().toAsm());
@@ -13,14 +13,14 @@ function main()
 	console.log(new PSGEnvelopeTable().toAsm());
 }
 
-class OPLLNoteTable
+class OPLLToneTable
 {
 	constructor()
 	{
 		this.notes = [];
 		for (let i = 0; i < 128; i++)
 		{
-			this.notes.push(new OPLLNote(Math.pow(2, (i - 69) / 12) * 440));
+			this.notes.push(new OPLLTone(Math.pow(2, (i - 69) / 12) * 440));
 		}
 	}
 	
@@ -81,7 +81,7 @@ class PSGEnvelopeTable
 	}
 }
 
-class OPLLNote
+class OPLLTone
 {
 	constructor(frequency)
 	{

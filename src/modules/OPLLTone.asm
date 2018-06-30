@@ -1,7 +1,7 @@
 ;
 ;
 ;
-OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?gate, ?key, ?sustain
+OPLLTone: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?gate, ?key, ?sustain
 	WriteRegister: equ ?msxMusic + MSXMusic.WriteRegister
 	Update:
 		ld a,(?instrument)
@@ -24,7 +24,7 @@ OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?gate, ?key, ?sustain
 		add a,a
 		ld e,a
 		ld d,0
-		ld hl,OPLLNote_frequencyTable
+		ld hl,OPLLTone_frequencyTable
 		add hl,de
 		ld d,(hl)
 		ld a,10H + ?channel
@@ -46,5 +46,5 @@ OPLLNote: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?gate, ?key, ?sustain
 	ENDM
 
 ; ix = this
-OPLLNote_Construct:
+OPLLTone_Construct:
 	ret

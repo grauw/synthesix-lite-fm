@@ -9,7 +9,7 @@ OPLLChannel: MACRO ?msxMusic, ?channel
 	sustain: Or sustainVelocity.value, channel.controllers + 64
 	volumeControllers: Attenuate channel.controllers + 7, channel.controllers + 11
 	volume: Attenuate channel.note.velocity, volumeControllers.value
-	opllNote: OPLLNote ?msxMusic, ?channel, instrument.value, volume.value, gate.value, channel.note.key, sustain.value
+	opllTone: OPLLTone ?msxMusic, ?channel, instrument.value, volume.value, gate.value, channel.note.key, sustain.value
 	Update:
 		call instrument.Update
 		call gate.Update
@@ -17,15 +17,15 @@ OPLLChannel: MACRO ?msxMusic, ?channel
 		call sustain.Update
 		call volumeControllers.Update
 		call volume.Update
-		jp opllNote.Update
+		jp opllTone.Update
 	ENDM
 
 ; ix = this
 OPLLChannel_Construct:
 	call Channel_Construct
-	ld de,OPLLChannel.opllNote
+	ld de,OPLLChannel.opllTone
 	add ix,de
-	call OPLLNote_Construct
-	ld de,-OPLLChannel.opllNote
+	call OPLLTone_Construct
+	ld de,-OPLLChannel.opllTone
 	add ix,de
 	ret

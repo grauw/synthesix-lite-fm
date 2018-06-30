@@ -53,7 +53,7 @@ COM_Main:
 	INCLUDE "modules/Constants.asm"
 	INCLUDE "modules/OPLLChannel.asm"
 	INCLUDE "modules/OPLLBasicChannel.asm"
-	INCLUDE "modules/OPLLNote.asm"
+	INCLUDE "modules/OPLLTone.asm"
 	INCLUDE "modules/OPLLVoice.asm"
 	INCLUDE "modules/PSGToneChannel.asm"
 	INCLUDE "modules/PSGNoiseChannel.asm"
