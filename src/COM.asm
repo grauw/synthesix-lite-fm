@@ -54,7 +54,7 @@ COM_Main:
 	INCLUDE "modules/OPLLChannel.asm"
 	INCLUDE "modules/OPLLBasicChannel.asm"
 	INCLUDE "modules/OPLLNote.asm"
-	INCLUDE "modules/OPLLTone.asm"
+	INCLUDE "modules/OPLLVoice.asm"
 	INCLUDE "modules/PSGChannel.asm"
 	INCLUDE "modules/PSGNoiseChannel.asm"
 	INCLUDE "modules/PSGEnvelopeChannel.asm"

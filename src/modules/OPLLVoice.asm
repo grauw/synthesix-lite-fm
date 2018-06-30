@@ -1,7 +1,7 @@
 ;
 ;
 ;
-OPLLTone: MACRO ?msxMusic, ?carrierTremolo, ?carrierVibrato, ?carrierEGMode, ?carrierRateKeyScale, ?carrierWaveform,
+OPLLVoice: MACRO ?msxMusic, ?carrierTremolo, ?carrierVibrato, ?carrierEGMode, ?carrierRateKeyScale, ?carrierWaveform,
                 ?carrierMultiplier, ?carrierLevelKeyScale, ?carrierAttack, ?carrierDecay, ?carrierSustain, ?carrierRelease,
                 ?modulatorTremolo, ?modulatorVibrato, ?modulatorEGMode, ?modulatorRateKeyScale, ?modulatorWaveform,
                 ?modulatorMultiplier, ?modulatorLevel, ?modulatorFeedback, ?modulatorLevelKeyScale, ?modulatorAttack, ?modulatorDecay, ?modulatorSustain, ?modulatorRelease
@@ -165,14 +165,14 @@ OPLLTone: MACRO ?msxMusic, ?carrierTremolo, ?carrierVibrato, ?carrierEGMode, ?ca
 	ENDM
 
 ; ix = this
-OPLLTone_Construct:
+OPLLVoice_Construct:
 	push ix
-	call OPLLTone_Update
+	call OPLLVoice_Update
 	pop ix
 	ret
 
 ; ix = this
-OPLLTone_Update:
-	ld de,OPLLTone.Update
+OPLLVoice_Update:
+	ld de,OPLLVoice.Update
 	add ix,de
 	jp ix
