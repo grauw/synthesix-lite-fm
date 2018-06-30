@@ -7,9 +7,9 @@ Note: MACRO
 	key:
 		db 0
 	velocity:
-		db 0
+		db 127
 	offVelocity:
-		db 0
+		db 127
 	pressure:
 		db 0
 	ENDM
