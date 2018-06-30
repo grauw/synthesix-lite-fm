@@ -5,11 +5,16 @@ PSGNote: MACRO ?psg, ?channel, ?key, ?gate, ?volume
 	WriteRegister: equ ?psg + PSG.WriteRegister
 	ReadRegister: equ ?psg + PSG.ReadRegister
 	Update:
+		ld a,08H + ?channel
+		call ReadRegister
+		and 0F0H
+		ld d,a
 		ld a,(?volume)
 		rrca
 		rrca
 		rrca
 		and 0FH
+		or d
 		ld d,a
 		ld a,08H + ?channel
 		call WriteRegister
