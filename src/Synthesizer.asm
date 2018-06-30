@@ -25,7 +25,7 @@ Synthesizer: MACRO
 		dw psgChannel1.channel
 		dw psgChannel2.channel
 		dw psgChannel3.channel
-		dw dummyChannel
+		dw psgChannel4.channel
 		dw dummyChannel
 	opllChannel1: OPLLBasicChannel msxMusic, 0
 	opllChannel2: OPLLChannel msxMusic, 1
@@ -39,6 +39,7 @@ Synthesizer: MACRO
 	psgChannel1: PSGChannel psg, 0
 	psgChannel2: PSGChannel psg, 1
 	psgChannel3: PSGChannel psg, 2
+	psgChannel4: PSGNoiseChannel psg, 1
 	dummyChannel: Channel
 	Update:
 		call opllChannel1.Update
@@ -52,7 +53,8 @@ Synthesizer: MACRO
 		call opllChannel9.Update
 		call psgChannel1.Update
 		call psgChannel2.Update
-		jp psgChannel3.Update
+		call psgChannel3.Update
+		jp psgChannel4.Update
 	ENDM
 
 ; ix = this
@@ -109,7 +111,10 @@ Synthesizer_Construct:
 	ld de,Synthesizer.psgChannel3 - Synthesizer.psgChannel2
 	add ix,de
 	call PSGChannel_Construct
-	ld de,Synthesizer.dummyChannel - Synthesizer.psgChannel3
+	ld de,Synthesizer.psgChannel4 - Synthesizer.psgChannel3
+	add ix,de
+	call PSGNoiseChannel_Construct
+	ld de,Synthesizer.dummyChannel - Synthesizer.psgChannel4
 	add ix,de
 	call Channel_Construct
 	ld de,-Synthesizer.dummyChannel

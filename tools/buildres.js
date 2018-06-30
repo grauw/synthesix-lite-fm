@@ -5,6 +5,9 @@ function main()
 	console.log("");
 	console.log("PSGNote_frequencyTable:");
 	console.log(new PSGNoteTable().toAsm());
+	console.log("");
+	console.log("PSGNoise_frequencyTable:");
+	console.log(new PSGNoiseTable().toAsm());
 }
 
 class OPLLNoteTable
@@ -41,6 +44,23 @@ class PSGNoteTable
 	}
 }
 
+class PSGNoiseTable
+{
+	constructor()
+	{
+		this.notes = [];
+		for (let i = 0; i < 128; i++)
+		{
+			this.notes.push(new PSGNoise(Math.pow(2, (i - 69) / 12 + 6) * 440));
+		}
+	}
+	
+	toAsm()
+	{
+		return "\tdb " + this.notes.join(", ");
+	}
+}
+
 class OPLLNote
 {
 	constructor(frequency)
@@ -69,6 +89,21 @@ class PSGNote
 		this.frequency = frequency;
 		this.period = 3579545 / (16 * frequency);
 		this.period = Math.min(this.period, 4095);
+	}
+
+	toString()
+	{
+		return Math.round(this.period);
+	}
+}
+
+class PSGNoise
+{
+	constructor(frequency)
+	{
+		this.frequency = frequency;
+		this.period = 3579545 / (16 * frequency);
+		this.period = Math.min(this.period, 31);
 	}
 
 	toString()
