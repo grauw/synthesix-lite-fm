@@ -1,25 +1,25 @@
 ;
 ;
 ;
-PSGChannel: MACRO ?psg, ?channel
+PSGToneChannel: MACRO ?psg, ?channel
 	channel: Channel
 	gate: Or channel.note.gate, channel.controllers + 68
 	volumeControllers: Attenuate channel.controllers + 7, channel.controllers + 11
 	volume: Attenuate channel.note.velocity, volumeControllers.value
-	psgNote: PSGNote ?psg, ?channel, channel.note.key, gate.value, volume.value
+	psgTone: PSGTone ?psg, ?channel, channel.note.key, gate.value, volume.value
 	Update:
 		call gate.Update
 		call volumeControllers.Update
 		call volume.Update
-		jp psgNote.Update
+		jp psgTone.Update
 	ENDM
 
 ; ix = this
-PSGChannel_Construct:
+PSGToneChannel_Construct:
 	call Channel_Construct
-	ld de,PSGChannel.psgNote
+	ld de,PSGToneChannel.psgTone
 	add ix,de
-	call PSGNote_Construct
-	ld de,-PSGChannel.psgNote
+	call PSGTone_Construct
+	ld de,-PSGToneChannel.psgTone
 	add ix,de
 	ret

@@ -3,8 +3,8 @@ function main()
 	console.log("OPLLNote_frequencyTable:");
 	console.log(new OPLLNoteTable().toAsm());
 	console.log("");
-	console.log("PSGNote_frequencyTable:");
-	console.log(new PSGNoteTable().toAsm());
+	console.log("PSGTone_frequencyTable:");
+	console.log(new PSGToneTable().toAsm());
 	console.log("");
 	console.log("PSGNoise_frequencyTable:");
 	console.log(new PSGNoiseTable().toAsm());
@@ -30,14 +30,14 @@ class OPLLNoteTable
 	}
 }
 
-class PSGNoteTable
+class PSGToneTable
 {
 	constructor()
 	{
 		this.notes = [];
 		for (let i = 0; i < 128; i++)
 		{
-			this.notes.push(new PSGNote(Math.pow(2, (i - 69) / 12) * 440));
+			this.notes.push(new PSGTone(Math.pow(2, (i - 69) / 12) * 440));
 		}
 	}
 	
@@ -102,7 +102,7 @@ class OPLLNote
 	}
 }
 
-class PSGNote
+class PSGTone
 {
 	constructor(frequency)
 	{

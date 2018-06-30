@@ -36,9 +36,9 @@ Synthesizer: MACRO
 	opllChannel7: OPLLChannel msxMusic, 6
 	opllChannel8: OPLLChannel msxMusic, 7
 	opllChannel9: OPLLChannel msxMusic, 8
-	psgChannel1: PSGChannel psg, 0
-	psgChannel2: PSGChannel psg, 1
-	psgChannel3: PSGChannel psg, 2
+	psgChannel1: PSGToneChannel psg, 0
+	psgChannel2: PSGToneChannel psg, 1
+	psgChannel3: PSGToneChannel psg, 2
 	psgChannel4: PSGNoiseChannel psg, 1
 	psgChannel5: PSGEnvelopeChannel psg, 2
 	dummyChannel: Channel
@@ -106,13 +106,13 @@ Synthesizer_Construct:
 	call OPLLChannel_Construct
 	ld de,Synthesizer.psgChannel1 - Synthesizer.opllChannel9
 	add ix,de
-	call PSGChannel_Construct
+	call PSGToneChannel_Construct
 	ld de,Synthesizer.psgChannel2 - Synthesizer.psgChannel1
 	add ix,de
-	call PSGChannel_Construct
+	call PSGToneChannel_Construct
 	ld de,Synthesizer.psgChannel3 - Synthesizer.psgChannel2
 	add ix,de
-	call PSGChannel_Construct
+	call PSGToneChannel_Construct
 	ld de,Synthesizer.psgChannel4 - Synthesizer.psgChannel3
 	add ix,de
 	call PSGNoiseChannel_Construct

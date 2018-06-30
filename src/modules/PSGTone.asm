@@ -1,7 +1,7 @@
 ;
 ;
 ;
-PSGNote: MACRO ?psg, ?channel, ?key, ?gate, ?volume
+PSGTone: MACRO ?psg, ?channel, ?key, ?gate, ?volume
 	WriteRegister: equ ?psg + PSG.WriteRegister
 	ReadRegister: equ ?psg + PSG.ReadRegister
 	Update:
@@ -22,7 +22,7 @@ PSGNote: MACRO ?psg, ?channel, ?key, ?gate, ?volume
 		add a,a
 		ld e,a
 		ld d,0
-		ld hl,PSGNote_frequencyTable
+		ld hl,PSGTone_frequencyTable
 		add hl,de
 		ld d,(hl)
 		ld a,00H + ?channel * 2
@@ -45,5 +45,5 @@ PSGNote: MACRO ?psg, ?channel, ?key, ?gate, ?volume
 	ENDM
 
 ; ix = this
-PSGNote_Construct:
+PSGTone_Construct:
 	ret
