@@ -8,6 +8,8 @@ Synthesizer: MACRO
 		MSXMidi
 	msxMusic:
 		MSXMusic
+	psg:
+		PSG
 	channels:
 		dw opllChannel1.channel
 		dw opllChannel2.channel
@@ -20,9 +22,9 @@ Synthesizer: MACRO
 		dw opllChannel9.channel
 		dw dummyChannel
 		dw dummyChannel
-		dw dummyChannel
-		dw dummyChannel
-		dw dummyChannel
+		dw psgChannel1.channel
+		dw psgChannel2.channel
+		dw psgChannel3.channel
 		dw dummyChannel
 		dw dummyChannel
 	opllChannel1: OPLLBasicChannel msxMusic, 0
@@ -34,6 +36,9 @@ Synthesizer: MACRO
 	opllChannel7: OPLLChannel msxMusic, 6
 	opllChannel8: OPLLChannel msxMusic, 7
 	opllChannel9: OPLLChannel msxMusic, 8
+	psgChannel1: PSGChannel psg, 0
+	psgChannel2: PSGChannel psg, 1
+	psgChannel3: PSGChannel psg, 2
 	dummyChannel: Channel
 	Update:
 		call opllChannel1.Update
@@ -44,7 +49,10 @@ Synthesizer: MACRO
 		call opllChannel6.Update
 		call opllChannel7.Update
 		call opllChannel8.Update
-		jp opllChannel9.Update
+		call opllChannel9.Update
+		call psgChannel1.Update
+		call psgChannel2.Update
+		jp psgChannel3.Update
 	ENDM
 
 ; ix = this
@@ -58,6 +66,12 @@ Synthesizer_Construct:
 	call MSXMusic_Detect
 	call nc,System_ThrowException
 	call MSXMusic_Construct
+	pop ix
+	push ix
+	call Synthesizer_GetPSG
+	call PSG_Detect
+	call nc,System_ThrowException
+	call PSG_Construct
 	pop ix
 	ld de,Synthesizer.opllChannel1
 	add ix,de
@@ -86,7 +100,16 @@ Synthesizer_Construct:
 	ld de,Synthesizer.opllChannel9 - Synthesizer.opllChannel8
 	add ix,de
 	call OPLLChannel_Construct
-	ld de,Synthesizer.dummyChannel - Synthesizer.opllChannel9
+	ld de,Synthesizer.psgChannel1 - Synthesizer.opllChannel9
+	add ix,de
+	call PSGChannel_Construct
+	ld de,Synthesizer.psgChannel2 - Synthesizer.psgChannel1
+	add ix,de
+	call PSGChannel_Construct
+	ld de,Synthesizer.psgChannel3 - Synthesizer.psgChannel2
+	add ix,de
+	call PSGChannel_Construct
+	ld de,Synthesizer.dummyChannel - Synthesizer.psgChannel3
 	add ix,de
 	call Channel_Construct
 	ld de,-Synthesizer.dummyChannel
@@ -103,6 +126,10 @@ Synthesizer_Destruct:
 	call Synthesizer_GetMSXMusic
 	call MSXMusic_Destruct
 	pop ix
+	push ix
+	call Synthesizer_GetPSG
+	call PSG_Destruct
+	pop ix
 	ret
 
 Synthesizer_GetMidiIn:
@@ -112,6 +139,11 @@ Synthesizer_GetMidiIn:
 
 Synthesizer_GetMSXMusic:
 	ld de,Synthesizer.msxMusic
+	add ix,de
+	ret
+
+Synthesizer_GetPSG:
+	ld de,Synthesizer.psg
 	add ix,de
 	ret
 
