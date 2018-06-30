@@ -51,4 +51,4 @@ OPLLNote_Construct:
 
 ;
 OPLLNote_frequencyTable:
-	INCLUDE "FNumTable.asm"
+	INCLUDE "OPLLFNumTable.asm"
