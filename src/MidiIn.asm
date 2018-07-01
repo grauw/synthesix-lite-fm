@@ -208,20 +208,20 @@ MidiIn_ProcessIY: PROC
 	bit 7,a
 	ret z
 	bit 6,a
-	jr nz,Process11
-Process10:
+	jr nz,Status11
+Status10:
 	bit 5,a
-	jr nz,Process101
-Process100:
+	jr nz,Status101
+Status100:
 	bit 4,a
-	jr nz,Process1001
-Process1000:
+	jr nz,Status1001
+Status1000:
 	call GetChannel
 	call MidiIn_ReadByteBlockingIY
 	ld b,a
 	call MidiIn_ReadByteBlockingIY
 	jp Channel_NoteOff
-Process1001:
+Status1001:
 	call GetChannel
 	call MidiIn_ReadByteBlockingIY
 	ld b,a
@@ -230,45 +230,45 @@ Process1001:
 	jp nz,Channel_NoteOn
 	ld a,64
 	jp Channel_NoteOff
-Process101:
+Status101:
 	bit 4,a
-	jr nz,Process1011
-Process1010:
+	jr nz,Status1011
+Status1010:
 	call GetChannel
 	call MidiIn_ReadByteBlockingIY
 	ld b,a
 	call MidiIn_ReadByteBlockingIY
 	jp Channel_PolyPressure
-Process1011:
+Status1011:
 	call GetChannel
 	call MidiIn_ReadByteBlockingIY
 	ld b,a
 	call MidiIn_ReadByteBlockingIY
 	jp Channel_ControlChange
-Process11:
+Status11:
 	bit 5,a
-	jr nz,Process111
-Process110:
+	jr nz,Status111
+Status110:
 	bit 4,a
-	jr nz,Process1101
-Process1100:
+	jr nz,Status1101
+Status1100:
 	call GetChannel
 	call MidiIn_ReadByteBlockingIY
 	jp Channel_ProgramChange
-Process1101:
+Status1101:
 	call GetChannel
 	call MidiIn_ReadByteBlockingIY
 	jp Channel_ChannelPressure
-Process111:
+Status111:
 	bit 4,a
-	jr nz,Process1111
-Process1110:
+	jr nz,Status1111
+Status1110:
 	call GetChannel
 	call MidiIn_ReadByteBlockingIY
 	ld b,a
 	call MidiIn_ReadByteBlockingIY
 	jp Channel_PitchBendChange
-Process1111:
+Status1111:
 	ret
 ; a = channel
 ; ix = channels
