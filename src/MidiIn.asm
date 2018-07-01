@@ -234,7 +234,7 @@ Status1000:
 	call GetChannel
 	ld b,(hl)
 	inc l
-	ld a,(hl)
+	ld c,(hl)
 	inc l
 	ld (iy + MidiIn.bufferTail),l
 	jp Channel_NoteOff
@@ -246,12 +246,13 @@ Status1001:
 	call GetChannel
 	ld b,(hl)
 	inc l
-	ld a,(hl)
+	ld c,(hl)
 	inc l
 	ld (iy + MidiIn.bufferTail),l
+	ld a,c
 	and a
 	jp nz,Channel_NoteOn
-	ld a,64
+	ld c,64
 	jp Channel_NoteOff
 Status101:
 	add a,a
@@ -264,7 +265,7 @@ Status1010:
 	call GetChannel
 	ld b,(hl)
 	inc l
-	ld a,(hl)
+	ld c,(hl)
 	inc l
 	ld (iy + MidiIn.bufferTail),l
 	jp Channel_PolyPressure
@@ -276,7 +277,7 @@ Status1011:
 	call GetChannel
 	ld b,(hl)
 	inc l
-	ld a,(hl)
+	ld c,(hl)
 	inc l
 	ld (iy + MidiIn.bufferTail),l
 	jp Channel_ControlChange
@@ -290,7 +291,7 @@ Status1100:
 	dec e
 	ret z  ; incomplete message
 	call GetChannel
-	ld a,(hl)
+	ld b,(hl)
 	inc l
 	ld (iy + MidiIn.bufferTail),l
 	jp Channel_ProgramChange
@@ -298,7 +299,7 @@ Status1101:
 	dec e
 	ret z  ; incomplete message
 	call GetChannel
-	ld a,(hl)
+	ld b,(hl)
 	inc l
 	ld (iy + MidiIn.bufferTail),l
 	jp Channel_ChannelPressure
@@ -313,7 +314,7 @@ Status1110:
 	call GetChannel
 	ld b,(hl)
 	inc l
-	ld a,(hl)
+	ld c,(hl)
 	inc l
 	ld (iy + MidiIn.bufferTail),l
 	jp Channel_PitchBendChange

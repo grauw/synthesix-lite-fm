@@ -18,70 +18,74 @@ Channel: MACRO
 		db 0, 0, 127, 0, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 0  ; CC  80-95
 		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC  96-111
 		db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0  ; CC 112-127
-	_size:
 	ENDM
 
-; a = velocity
 ; b = key
+; c = velocity
+; ix = this
 Channel_NoteOff:
-	ld d,a
 	ld a,(ix + Channel.note.key)
 	cp b
 	ret nz
 	ld (ix + Channel.note.gate),0
 	ld (ix + Channel.note.offTrigger),127
-	ld (ix + Channel.note.offVelocity),d
+	ld (ix + Channel.note.offVelocity),c
 	ret
 
-; a = velocity
 ; b = key
+; c = velocity
+; ix = this
 Channel_NoteOn:
-	ld d,(ix + Channel.note.gate)
+	ld a,(ix + Channel.note.gate)
 	ld (ix + Channel.note.gate),127
 	ld (ix + Channel.note.key),b
-	ld (ix + Channel.note.velocity),a
-	ld a,d
+	ld (ix + Channel.note.velocity),c
 	and a
 	ret nz
 	ld (ix + Channel.note.trigger),127
 	ret
 
-; a = pressure
 ; b = key
+; c = pressure
+; ix = this
 Channel_PolyPressure:
-	ld d,a
 	ld a,(ix + Channel.note.key)
 	cp b
 	ret nz
-	ld (ix + Channel.note.pressure),d
+	ld (ix + Channel.note.pressure),c
 	ret
 
-; a = value
 ; b = controller
+; c = value
+; ix = this
 Channel_ControlChange:
 	ld e,b
 	ld d,0
 	add ix,de
-	ld (ix + Channel.controllers),a
+	ld (ix + Channel.controllers),c
 	ret
 
-; a = program
+; b = program
+; ix = this
 Channel_ProgramChange:
-	ld (ix + Channel.program),a
+	ld (ix + Channel.program),b
 	ret
 
-; a = pressure
+; b = pressure
+; ix = this
 Channel_ChannelPressure:
-	ld (ix + Channel.pressure),a
+	ld (ix + Channel.pressure),b
 	ret
 
-; a = bend MSB
 ; b = bend LSB
+; c = bend MSB
+; ix = this
 Channel_PitchBendChange:
 	ld (ix + Channel.pitchBend),b
-	ld (ix + Channel.pitchBend + 1),a
+	ld (ix + Channel.pitchBend + 1),c
 	ret
 
+; ix = this
 Channel_ClearTriggers:
 	ld (ix + Channel.note.trigger),0
 	ld (ix + Channel.note.offTrigger),0
