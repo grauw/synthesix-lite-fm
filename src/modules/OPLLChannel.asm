@@ -9,7 +9,7 @@ OPLLChannel: MACRO ?msxMusic, ?channel
 	sustain: Or sustainVelocity.value, channel.controllers + 69
 	volumeControllers: Attenuate channel.controllers + 7, channel.controllers + 11
 	volume: Attenuate channel.note.velocity, volumeControllers.value
-	opllTone: OPLLTone ?msxMusic, ?channel, instrument.value, volume.value, gate.value, channel.note.key, sustain.value
+	opllTone: OPLLTone ?msxMusic, ?channel, instrument.value, volume.value, gate.value, channel.note.trigger, channel.note.key, sustain.value
 	Update:
 		call instrument.Update
 		call gate.Update

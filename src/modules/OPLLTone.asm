@@ -1,9 +1,21 @@
 ;
 ;
 ;
-OPLLTone: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?gate, ?key, ?sustain
+OPLLTone: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?gate, ?trigger, ?key, ?sustain
 	WriteRegister: equ ?msxMusic + MSXMusic.WriteRegister
 	Update:
+		ld a,(?trigger)
+		bit 6,a
+		jr z,NoTrigger
+		ld a,0
+	last20H: equ $ - 1
+		bit 4,a
+		jr z,NoTrigger
+		and 11101111B
+		ld d,a
+		ld a,20H + ?channel
+		jp WriteRegister
+	NoTrigger:
 		ld a,(?instrument)
 		add a,a
 		add a,a
@@ -41,6 +53,8 @@ OPLLTone: MACRO ?msxMusic, ?channel, ?instrument, ?volume, ?gate, ?key, ?sustain
 		jr z,NoSustain
 		set 5,d
 	NoSustain:
+		ld a,d
+		ld (last20H),a
 		ld a,20H + ?channel
 		jp WriteRegister
 	ENDM
