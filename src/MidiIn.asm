@@ -266,12 +266,12 @@ Status1111:
 Message1Data_M: MACRO ?handler
 	dec e
 	ret z  ; incomplete message
-	call GetChannel
 	ld b,(hl)
 	bit 7,b
 	jr nz,Skip
 	inc l
 	ld (iy + MidiIn.bufferTail),l
+	call GetChannel
 	jp ?handler
 	ENDM
 ; a = channel * 16
@@ -284,7 +284,6 @@ Message2Data_M: MACRO ?handler
 	ret z  ; incomplete message
 	dec e
 	ret z  ; incomplete message
-	call GetChannel
 	ld b,(hl)
 	bit 7,b
 	jr nz,Skip
@@ -294,6 +293,7 @@ Message2Data_M: MACRO ?handler
 	jr nz,Skip
 	inc l
 	ld (iy + MidiIn.bufferTail),l
+	call GetChannel
 	jp ?handler
 	ENDM
 ; a = channel * 16
