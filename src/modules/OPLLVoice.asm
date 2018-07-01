@@ -163,16 +163,3 @@ OPLLVoice: MACRO ?msxMusic, ?carrierTremolo, ?carrierVibrato, ?carrierEGMode, ?c
 		ld a,07H
 		jp WriteRegister
 	ENDM
-
-; ix = this
-OPLLVoice_Construct:
-	push ix
-	call OPLLVoice_Update
-	pop ix
-	ret
-
-; ix = this
-OPLLVoice_Update:
-	ld de,OPLLVoice.Update
-	add ix,de
-	jp ix

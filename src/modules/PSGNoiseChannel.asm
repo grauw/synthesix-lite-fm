@@ -9,13 +9,3 @@ PSGNoiseChannel: MACRO ?psg, ?channel
 		call gate.Update
 		jp psgNoise.Update
 	ENDM
-
-; ix = this
-PSGNoiseChannel_Construct:
-	call Channel_Construct
-	ld de,PSGNoiseChannel.psgNoise
-	add ix,de
-	call PSGNoise_Construct
-	ld de,-PSGNoiseChannel.psgNoise
-	add ix,de
-	ret

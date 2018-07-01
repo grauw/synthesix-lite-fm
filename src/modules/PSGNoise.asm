@@ -25,7 +25,3 @@ PSGNoise: MACRO ?psg, ?channel, ?key, ?gate
 		ld a,07H
 		jp WriteRegister
 	ENDM
-
-; ix = this
-PSGNoise_Construct:
-	ret

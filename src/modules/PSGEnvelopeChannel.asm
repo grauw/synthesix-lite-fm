@@ -11,13 +11,3 @@ PSGEnvelopeChannel: MACRO ?psg, ?channel
 		call gate.Update
 		jp psgEnvelope.Update
 	ENDM
-
-; ix = this
-PSGEnvelopeChannel_Construct:
-	call Channel_Construct
-	ld de,PSGEnvelopeChannel.psgEnvelope
-	add ix,de
-	call PSGEnvelope_Construct
-	ld de,-PSGEnvelopeChannel.psgEnvelope
-	add ix,de
-	ret

@@ -13,13 +13,3 @@ PSGToneChannel: MACRO ?psg, ?channel
 		call volume.Update
 		jp psgTone.Update
 	ENDM
-
-; ix = this
-PSGToneChannel_Construct:
-	call Channel_Construct
-	ld de,PSGToneChannel.psgTone
-	add ix,de
-	call PSGTone_Construct
-	ld de,-PSGToneChannel.psgTone
-	add ix,de
-	ret

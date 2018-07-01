@@ -21,10 +21,6 @@ Channel: MACRO
 	_size:
 	ENDM
 
-; ix = this
-Channel_Construct:
-	ret
-
 ; a = velocity
 ; b = key
 Channel_NoteOff:

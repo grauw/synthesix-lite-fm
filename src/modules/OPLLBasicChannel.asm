@@ -12,13 +12,3 @@ OPLLBasicChannel: MACRO ?msxMusic, ?channel
 		call opllVoice.Update
 		jp super.Update
 	ENDM
-
-; ix = this
-OPLLBasicChannel_Construct:
-	call OPLLChannel_Construct
-	ld de,OPLLBasicChannel.opllVoice
-	add ix,de
-	call OPLLVoice_Construct
-	ld de,-OPLLBasicChannel.opllVoice
-	add ix,de
-	ret

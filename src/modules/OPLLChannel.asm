@@ -19,13 +19,3 @@ OPLLChannel: MACRO ?msxMusic, ?channel
 		call volume.Update
 		jp opllTone.Update
 	ENDM
-
-; ix = this
-OPLLChannel_Construct:
-	call Channel_Construct
-	ld de,OPLLChannel.opllTone
-	add ix,de
-	call OPLLTone_Construct
-	ld de,-OPLLChannel.opllTone
-	add ix,de
-	ret

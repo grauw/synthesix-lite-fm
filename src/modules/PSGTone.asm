@@ -43,7 +43,3 @@ PSGTone: MACRO ?psg, ?channel, ?key, ?gate, ?volume
 		ld a,07H
 		jp WriteRegister
 	ENDM
-
-; ix = this
-PSGTone_Construct:
-	ret

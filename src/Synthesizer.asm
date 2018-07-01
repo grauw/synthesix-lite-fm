@@ -77,53 +77,6 @@ Synthesizer_Construct:
 	call nc,System_ThrowException
 	call PSG_Construct
 	pop ix
-	ld de,Synthesizer.opllChannel1
-	add ix,de
-	call OPLLBasicChannel_Construct
-	ld de,Synthesizer.opllChannel2 - Synthesizer.opllChannel1
-	add ix,de
-	call OPLLChannel_Construct
-	ld de,Synthesizer.opllChannel3 - Synthesizer.opllChannel2
-	add ix,de
-	call OPLLChannel_Construct
-	ld de,Synthesizer.opllChannel4 - Synthesizer.opllChannel3
-	add ix,de
-	call OPLLChannel_Construct
-	ld de,Synthesizer.opllChannel5 - Synthesizer.opllChannel4
-	add ix,de
-	call OPLLChannel_Construct
-	ld de,Synthesizer.opllChannel6 - Synthesizer.opllChannel5
-	add ix,de
-	call OPLLChannel_Construct
-	ld de,Synthesizer.opllChannel7 - Synthesizer.opllChannel6
-	add ix,de
-	call OPLLChannel_Construct
-	ld de,Synthesizer.opllChannel8 - Synthesizer.opllChannel7
-	add ix,de
-	call OPLLChannel_Construct
-	ld de,Synthesizer.opllChannel9 - Synthesizer.opllChannel8
-	add ix,de
-	call OPLLChannel_Construct
-	ld de,Synthesizer.psgChannel1 - Synthesizer.opllChannel9
-	add ix,de
-	call PSGToneChannel_Construct
-	ld de,Synthesizer.psgChannel2 - Synthesizer.psgChannel1
-	add ix,de
-	call PSGToneChannel_Construct
-	ld de,Synthesizer.psgChannel3 - Synthesizer.psgChannel2
-	add ix,de
-	call PSGToneChannel_Construct
-	ld de,Synthesizer.psgChannel4 - Synthesizer.psgChannel3
-	add ix,de
-	call PSGNoiseChannel_Construct
-	ld de,Synthesizer.psgChannel5 - Synthesizer.psgChannel4
-	add ix,de
-	call PSGEnvelopeChannel_Construct
-	ld de,Synthesizer.dummyChannel - Synthesizer.psgChannel5
-	add ix,de
-	call Channel_Construct
-	ld de,-Synthesizer.dummyChannel
-	add ix,de
 	ret
 
 ; ix = this

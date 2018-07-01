@@ -41,7 +41,3 @@ PSGEnvelope: MACRO ?psg, ?channel, ?shape, ?key, ?gate
 		ld a,08H + ?channel
 		jp WriteRegister
 	ENDM
-
-; ix = this
-PSGEnvelope_Construct:
-	ret
