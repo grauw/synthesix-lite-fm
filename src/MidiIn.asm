@@ -10,6 +10,8 @@ MidiIn: MACRO
 		dw 0
 	bufferTail:
 		dw 0
+	runningStatus:
+		db 0
 	clock:
 		db 0
 
@@ -210,13 +212,18 @@ MidiIn_ProcessIY: PROC
 	sub l
 	ret z  ; no messages
 	ld e,a
-	ld a,(hl)
+	ld d,(hl)
 	inc l
+	ld a,d
 	add a,a
 	jr c,Status1
 Status0:
-	ld (iy + MidiIn.bufferTail),l
-	ret
+	ld d,(iy + MidiIn.runningStatus)
+	ld a,d
+	add a,a
+	jr nc,Skip
+	dec l
+	inc e
 Status1:
 	add a,a
 	jr c,Status11
@@ -257,8 +264,10 @@ Status1110:
 	Message2Data_M Channel_PitchBendChange
 Status1111:
 	ld (iy + MidiIn.bufferTail),l
+	ld (iy + MidiIn.runningStatus),0
 	ret
 ; a = channel * 16
+; d = status
 ; e = bytes left
 ; hl = buffer
 ; ix = channels
@@ -271,10 +280,12 @@ Message1Data_M: MACRO ?handler
 	jr nz,Skip
 	inc l
 	ld (iy + MidiIn.bufferTail),l
+	ld (iy + MidiIn.runningStatus),d
 	call GetChannel
 	jp ?handler
 	ENDM
 ; a = channel * 16
+; d = status
 ; e = bytes left
 ; hl = buffer
 ; ix = channels
@@ -293,6 +304,7 @@ Message2Data_M: MACRO ?handler
 	jr nz,Skip
 	inc l
 	ld (iy + MidiIn.bufferTail),l
+	ld (iy + MidiIn.runningStatus),d
 	call GetChannel
 	jp ?handler
 	ENDM
