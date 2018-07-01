@@ -29,15 +29,21 @@ Channel_NoteOff:
 	cp b
 	ret nz
 	ld (ix + Channel.note.gate),0
+	ld (ix + Channel.note.offTrigger),127
 	ld (ix + Channel.note.offVelocity),d
 	ret
 
 ; a = velocity
 ; b = key
 Channel_NoteOn:
+	ld d,(ix + Channel.note.gate)
 	ld (ix + Channel.note.gate),127
 	ld (ix + Channel.note.key),b
 	ld (ix + Channel.note.velocity),a
+	ld a,d
+	and a
+	ret nz
+	ld (ix + Channel.note.trigger),127
 	ret
 
 ; a = pressure
@@ -74,4 +80,9 @@ Channel_ChannelPressure:
 Channel_PitchBendChange:
 	ld (ix + Channel.pitchBend),b
 	ld (ix + Channel.pitchBend + 1),a
+	ret
+
+Channel_ClearTriggers:
+	ld (ix + Channel.note.trigger),0
+	ld (ix + Channel.note.offTrigger),0
 	ret

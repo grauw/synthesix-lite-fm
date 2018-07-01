@@ -56,7 +56,12 @@ Synthesizer: MACRO
 		call psgChannel2.Update
 		call psgChannel3.Update
 		call psgChannel4.Update
-		jp psgChannel5.Update
+		call psgChannel5.Update
+		REPT 16, ?channel
+		ld ix,(channels + ?channel * 2)
+		call Channel_ClearTriggers
+		ENDM
+		ret
 	ENDM
 
 ; ix = this

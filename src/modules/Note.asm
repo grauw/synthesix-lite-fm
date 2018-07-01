@@ -4,6 +4,10 @@
 Note: MACRO
 	gate:
 		db 0
+	trigger:
+		db 0
+	offTrigger:
+		db 0
 	key:
 		db 0
 	velocity:
