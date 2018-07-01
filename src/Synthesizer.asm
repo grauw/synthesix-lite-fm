@@ -115,37 +115,19 @@ Synthesizer_GetPSG:
 	add ix,de
 	ret
 
-; a = channel
-; ix = this
-; ix <- channel
-Synthesizer_GetChannel:
-	and 0FH
-	add a,a
-	ld e,a
-	ld d,0
-	add ix,de
-	ld e,(ix + Synthesizer.channels)
-	ld d,(ix + Synthesizer.channels + 1)
-	ld ixl,e
-	ld ixh,d
-	ret
-
 ; ix = this
 Synthesizer_Run: PROC
 	push ix
 	call Synthesizer_GetMidiIn
 	call MSXMidi_Install
-	ex (sp),ix
-	pop iy
+	pop ix
 Loop:
-	push iy
 	push ix
 	call Synthesizer_Process
 	pop ix
 	push ix
 	call Synthesizer_Update
 	pop ix
-	pop iy
 	jr Loop
 	push ix
 	call Synthesizer_GetMidiIn
@@ -154,80 +136,18 @@ Loop:
 	ret
 	ENDP
 
-; iy = MIDI In
+; ix = this
+Synthesizer_Process:
+	ld e,ixl
+	ld d,ixh
+	ld iy,Synthesizer.midiIn
+	add iy,de
+	ld de,Synthesizer.channels
+	add ix,de
+	jp MidiIn_ProcessIY
+
 ; ix = this
 Synthesizer_Update:
 	ld de,Synthesizer.Update
 	add ix,de
 	jp ix
-
-; ix = this
-; iy = MIDI In
-Synthesizer_Process: PROC
-	call MidiIn_ReadByteBlockingIY
-	bit 7,a
-	ret z
-	bit 6,a
-	jr nz,Process11
-Process10:
-	bit 5,a
-	jr nz,Process101
-Process100:
-	bit 4,a
-	jr nz,Process1001
-Process1000:
-	call Synthesizer_GetChannel
-	call MidiIn_ReadByteBlockingIY
-	ld b,a
-	call MidiIn_ReadByteBlockingIY
-	jp Channel_NoteOff
-Process1001:
-	call Synthesizer_GetChannel
-	call MidiIn_ReadByteBlockingIY
-	ld b,a
-	call MidiIn_ReadByteBlockingIY
-	and a
-	jp nz,Channel_NoteOn
-	ld a,64
-	jp Channel_NoteOff
-Process101:
-	bit 4,a
-	jr nz,Process1011
-Process1010:
-	call Synthesizer_GetChannel
-	call MidiIn_ReadByteBlockingIY
-	ld b,a
-	call MidiIn_ReadByteBlockingIY
-	jp Channel_PolyPressure
-Process1011:
-	call Synthesizer_GetChannel
-	call MidiIn_ReadByteBlockingIY
-	ld b,a
-	call MidiIn_ReadByteBlockingIY
-	jp Channel_ControlChange
-Process11:
-	bit 5,a
-	jr nz,Process111
-Process110:
-	bit 4,a
-	jr nz,Process1101
-Process1100:
-	call Synthesizer_GetChannel
-	call MidiIn_ReadByteBlockingIY
-	jp Channel_ProgramChange
-Process1101:
-	call Synthesizer_GetChannel
-	call MidiIn_ReadByteBlockingIY
-	jp Channel_ChannelPressure
-Process111:
-	bit 4,a
-	jr nz,Process1111
-Process1110:
-	call Synthesizer_GetChannel
-	call MidiIn_ReadByteBlockingIY
-	ld b,a
-	call MidiIn_ReadByteBlockingIY
-	jp Channel_PitchBendChange
-Process1111:
-	ret
-	ENDP
