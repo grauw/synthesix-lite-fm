@@ -293,11 +293,11 @@ Message1Data_M: MACRO ?handler
 Message2Data_M: MACRO ?handler
 	dec e
 	ret z  ; incomplete message
-	dec e
-	ret z  ; incomplete message
 	ld b,(hl)
 	bit 7,b
 	jr nz,Skip
+	dec e
+	ret z  ; incomplete message
 	inc l
 	ld c,(hl)
 	bit 7,c
