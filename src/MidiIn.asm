@@ -204,9 +204,20 @@ MidiIn_PitchBendIY:
 ; ix = channels
 ; iy = this
 MidiIn_ProcessIY: PROC
-	call MidiIn_ReadByteBlockingIY
+	ld l,(iy + MidiIn.bufferTail)
+	ld h,(iy + MidiIn.bufferTail + 1)
+	ld a,(iy + MidiIn.bufferHead)
+	sub l
+	ret z  ; no messages
+	ld e,a
+	ld a,(hl)
+	inc l
 	add a,a
-	ret nc
+	jr c,Status1
+Status0:
+	ld (iy + MidiIn.bufferTail),l
+	ret
+Status1:
 	add a,a
 	jr c,Status11
 Status10:
@@ -216,16 +227,28 @@ Status100:
 	add a,a
 	jr c,Status1001
 Status1000:
+	dec e
+	ret z  ; incomplete message
+	dec e
+	ret z  ; incomplete message
 	call GetChannel
-	call MidiIn_ReadByteBlockingIY
-	ld b,a
-	call MidiIn_ReadByteBlockingIY
+	ld b,(hl)
+	inc l
+	ld a,(hl)
+	inc l
+	ld (iy + MidiIn.bufferTail),l
 	jp Channel_NoteOff
 Status1001:
+	dec e
+	ret z  ; incomplete message
+	dec e
+	ret z  ; incomplete message
 	call GetChannel
-	call MidiIn_ReadByteBlockingIY
-	ld b,a
-	call MidiIn_ReadByteBlockingIY
+	ld b,(hl)
+	inc l
+	ld a,(hl)
+	inc l
+	ld (iy + MidiIn.bufferTail),l
 	and a
 	jp nz,Channel_NoteOn
 	ld a,64
@@ -234,16 +257,28 @@ Status101:
 	add a,a
 	jr c,Status1011
 Status1010:
+	dec e
+	ret z  ; incomplete message
+	dec e
+	ret z  ; incomplete message
 	call GetChannel
-	call MidiIn_ReadByteBlockingIY
-	ld b,a
-	call MidiIn_ReadByteBlockingIY
+	ld b,(hl)
+	inc l
+	ld a,(hl)
+	inc l
+	ld (iy + MidiIn.bufferTail),l
 	jp Channel_PolyPressure
 Status1011:
+	dec e
+	ret z  ; incomplete message
+	dec e
+	ret z  ; incomplete message
 	call GetChannel
-	call MidiIn_ReadByteBlockingIY
-	ld b,a
-	call MidiIn_ReadByteBlockingIY
+	ld b,(hl)
+	inc l
+	ld a,(hl)
+	inc l
+	ld (iy + MidiIn.bufferTail),l
 	jp Channel_ControlChange
 Status11:
 	add a,a
@@ -252,23 +287,38 @@ Status110:
 	add a,a
 	jr c,Status1101
 Status1100:
+	dec e
+	ret z  ; incomplete message
 	call GetChannel
-	call MidiIn_ReadByteBlockingIY
+	ld a,(hl)
+	inc l
+	ld (iy + MidiIn.bufferTail),l
 	jp Channel_ProgramChange
 Status1101:
+	dec e
+	ret z  ; incomplete message
 	call GetChannel
-	call MidiIn_ReadByteBlockingIY
+	ld a,(hl)
+	inc l
+	ld (iy + MidiIn.bufferTail),l
 	jp Channel_ChannelPressure
 Status111:
 	add a,a
 	jr c,Status1111
 Status1110:
+	dec e
+	ret z  ; incomplete message
+	dec e
+	ret z  ; incomplete message
 	call GetChannel
-	call MidiIn_ReadByteBlockingIY
-	ld b,a
-	call MidiIn_ReadByteBlockingIY
+	ld b,(hl)
+	inc l
+	ld a,(hl)
+	inc l
+	ld (iy + MidiIn.bufferTail),l
 	jp Channel_PitchBendChange
 Status1111:
+	ld (iy + MidiIn.bufferTail),l
 	ret
 ; a = channel * 16
 ; ix = channels
