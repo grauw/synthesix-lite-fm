@@ -205,16 +205,16 @@ MidiIn_PitchBendIY:
 ; iy = this
 MidiIn_ProcessIY: PROC
 	call MidiIn_ReadByteBlockingIY
-	bit 7,a
-	ret z
-	bit 6,a
-	jr nz,Status11
+	add a,a
+	ret nc
+	add a,a
+	jr c,Status11
 Status10:
-	bit 5,a
-	jr nz,Status101
+	add a,a
+	jr c,Status101
 Status100:
-	bit 4,a
-	jr nz,Status1001
+	add a,a
+	jr c,Status1001
 Status1000:
 	call GetChannel
 	call MidiIn_ReadByteBlockingIY
@@ -231,8 +231,8 @@ Status1001:
 	ld a,64
 	jp Channel_NoteOff
 Status101:
-	bit 4,a
-	jr nz,Status1011
+	add a,a
+	jr c,Status1011
 Status1010:
 	call GetChannel
 	call MidiIn_ReadByteBlockingIY
@@ -246,11 +246,11 @@ Status1011:
 	call MidiIn_ReadByteBlockingIY
 	jp Channel_ControlChange
 Status11:
-	bit 5,a
-	jr nz,Status111
+	add a,a
+	jr c,Status111
 Status110:
-	bit 4,a
-	jr nz,Status1101
+	add a,a
+	jr c,Status1101
 Status1100:
 	call GetChannel
 	call MidiIn_ReadByteBlockingIY
@@ -260,8 +260,8 @@ Status1101:
 	call MidiIn_ReadByteBlockingIY
 	jp Channel_ChannelPressure
 Status111:
-	bit 4,a
-	jr nz,Status1111
+	add a,a
+	jr c,Status1111
 Status1110:
 	call GetChannel
 	call MidiIn_ReadByteBlockingIY
@@ -270,12 +270,13 @@ Status1110:
 	jp Channel_PitchBendChange
 Status1111:
 	ret
-; a = channel
+; a = channel * 16
 ; ix = channels
 ; ix <- channel
 GetChannel:
-	and 0FH
-	add a,a
+	rrca
+	rrca
+	rrca
 	ld e,a
 	ld d,0
 	add ix,de
