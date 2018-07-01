@@ -249,11 +249,7 @@ Status1001:
 	ld c,(hl)
 	inc l
 	ld (iy + MidiIn.bufferTail),l
-	ld a,c
-	and a
-	jp nz,Channel_NoteOn
-	ld c,64
-	jp Channel_NoteOff
+	jp Channel_NoteOn
 Status101:
 	add a,a
 	jr c,Status1011

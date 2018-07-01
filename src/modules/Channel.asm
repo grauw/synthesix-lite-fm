@@ -35,7 +35,10 @@ Channel_NoteOff:
 ; b = key
 ; c = velocity
 ; ix = this
-Channel_NoteOn:
+Channel_NoteOn: PROC
+	ld a,c
+	and a
+	jr z,Off
 	ld a,(ix + Channel.note.gate)
 	ld (ix + Channel.note.gate),127
 	ld (ix + Channel.note.key),b
@@ -44,6 +47,15 @@ Channel_NoteOn:
 	ret nz
 	ld (ix + Channel.note.trigger),127
 	ret
+Off:
+	ld a,(ix + Channel.note.key)
+	cp b
+	ret nz
+	ld (ix + Channel.note.gate),0
+	ld (ix + Channel.note.offTrigger),127
+	ld (ix + Channel.note.offVelocity),64
+	ret
+	ENDP
 
 ; b = key
 ; c = pressure
