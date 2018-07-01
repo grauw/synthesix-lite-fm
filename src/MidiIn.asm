@@ -227,56 +227,16 @@ Status100:
 	add a,a
 	jr c,Status1001
 Status1000:
-	dec e
-	ret z  ; incomplete message
-	dec e
-	ret z  ; incomplete message
-	call GetChannel
-	ld b,(hl)
-	inc l
-	ld c,(hl)
-	inc l
-	ld (iy + MidiIn.bufferTail),l
-	jp Channel_NoteOff
+	Message2Data_M Channel_NoteOff
 Status1001:
-	dec e
-	ret z  ; incomplete message
-	dec e
-	ret z  ; incomplete message
-	call GetChannel
-	ld b,(hl)
-	inc l
-	ld c,(hl)
-	inc l
-	ld (iy + MidiIn.bufferTail),l
-	jp Channel_NoteOn
+	Message2Data_M Channel_NoteOn
 Status101:
 	add a,a
 	jr c,Status1011
 Status1010:
-	dec e
-	ret z  ; incomplete message
-	dec e
-	ret z  ; incomplete message
-	call GetChannel
-	ld b,(hl)
-	inc l
-	ld c,(hl)
-	inc l
-	ld (iy + MidiIn.bufferTail),l
-	jp Channel_PolyPressure
+	Message2Data_M Channel_PolyPressure
 Status1011:
-	dec e
-	ret z  ; incomplete message
-	dec e
-	ret z  ; incomplete message
-	call GetChannel
-	ld b,(hl)
-	inc l
-	ld c,(hl)
-	inc l
-	ld (iy + MidiIn.bufferTail),l
-	jp Channel_ControlChange
+	Message2Data_M Channel_ControlChange
 Status11:
 	add a,a
 	jr c,Status111
@@ -284,25 +244,37 @@ Status110:
 	add a,a
 	jr c,Status1101
 Status1100:
-	dec e
-	ret z  ; incomplete message
-	call GetChannel
-	ld b,(hl)
-	inc l
-	ld (iy + MidiIn.bufferTail),l
-	jp Channel_ProgramChange
+	Message1Data_M Channel_ProgramChange
 Status1101:
-	dec e
-	ret z  ; incomplete message
-	call GetChannel
-	ld b,(hl)
-	inc l
-	ld (iy + MidiIn.bufferTail),l
-	jp Channel_ChannelPressure
+	Message1Data_M Channel_ChannelPressure
 Status111:
 	add a,a
 	jr c,Status1111
 Status1110:
+	Message2Data_M Channel_PitchBendChange
+Status1111:
+	ld (iy + MidiIn.bufferTail),l
+	ret
+; a = channel * 16
+; e = bytes left
+; hl = buffer
+; ix = channels
+; iy = this
+Message1Data_M: MACRO ?handler
+	dec e
+	ret z  ; incomplete message
+	call GetChannel
+	ld b,(hl)
+	inc l
+	ld (iy + MidiIn.bufferTail),l
+	jp ?handler
+	ENDM
+; a = channel * 16
+; e = bytes left
+; hl = buffer
+; ix = channels
+; iy = this
+Message2Data_M: MACRO ?handler
 	dec e
 	ret z  ; incomplete message
 	dec e
@@ -313,10 +285,8 @@ Status1110:
 	ld c,(hl)
 	inc l
 	ld (iy + MidiIn.bufferTail),l
-	jp Channel_PitchBendChange
-Status1111:
-	ld (iy + MidiIn.bufferTail),l
-	ret
+	jp ?handler
+	ENDM
 ; a = channel * 16
 ; ix = channels
 ; ix <- channel
