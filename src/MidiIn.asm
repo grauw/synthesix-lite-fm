@@ -237,6 +237,9 @@ Status1010:
 	Message2Data_M Channel_PolyPressure
 Status1011:
 	Message2Data_M Channel_ControlChange
+Skip:
+	ld (iy + MidiIn.bufferTail),l
+	ret
 Status11:
 	add a,a
 	jr c,Status111
@@ -265,6 +268,8 @@ Message1Data_M: MACRO ?handler
 	ret z  ; incomplete message
 	call GetChannel
 	ld b,(hl)
+	bit 7,b
+	jr nz,Skip
 	inc l
 	ld (iy + MidiIn.bufferTail),l
 	jp ?handler
@@ -281,8 +286,12 @@ Message2Data_M: MACRO ?handler
 	ret z  ; incomplete message
 	call GetChannel
 	ld b,(hl)
+	bit 7,b
+	jr nz,Skip
 	inc l
 	ld c,(hl)
+	bit 7,c
+	jr nz,Skip
 	inc l
 	ld (iy + MidiIn.bufferTail),l
 	jp ?handler
