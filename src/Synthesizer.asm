@@ -121,13 +121,27 @@ Synthesizer_Run: PROC
 	call Synthesizer_GetMidiIn
 	call MSXMidi_Install
 	pop ix
+	ld a,(JIFFY)
+	ld c,a
 Loop:
+	push bc
 	push ix
 	call Synthesizer_Process
 	pop ix
+	pop bc
+	ld a,(JIFFY)
+	sub c
+	jr z,Loop
+	ld b,a
+	add a,c
+	ld c,a
+UpdateLoop:
+	push bc
 	push ix
 	call Synthesizer_Update
 	pop ix
+	pop bc
+	djnz UpdateLoop
 	jr Loop
 	push ix
 	call Synthesizer_GetMidiIn
