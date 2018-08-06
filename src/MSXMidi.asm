@@ -26,9 +26,20 @@ MSXMidi: MACRO
 		db 0
 	commandSave:
 		db 0
-	hook:
-		Hook H.KEYI, Entry, OldHook
-	Entry:
+	hookKEYI:
+		Hook H.KEYI, EntryKEYI, OldHookKEYI
+	hook38H:
+		Hook 38H, Entry38H, OldHook38H
+
+	EntryKEYI:
+		in a,(MSXMidi_UART_STATUS)
+		and 00000010B
+		in a,(MSXMidi_UART_RECEIVE)
+		call nz,super.WriteByte
+	OldHookKEYI:
+		ds 5
+
+	Entry38H:
 		push af
 		in a,(MSXMidi_UART_STATUS)
 		and 00000010B
@@ -38,10 +49,11 @@ MSXMidi: MACRO
 		call super.WriteByte
 		pop hl
 		pop af
+		ei
 		ret
 	NotMSXMidi:
 		pop af
-	OldHook:
+	OldHook38H:
 		ds 5
 	ENDM
 
@@ -62,7 +74,12 @@ MSXMidi_Install:
 	di
 	ld (ix + MSXMidi.found),-1
 	push ix
-	ld de,MSXMidi.hook
+	ld de,MSXMidi.hookKEYI
+	add ix,de
+	call Hook_Install
+	pop ix
+	push ix
+	ld de,MSXMidi.hook38H
 	add ix,de
 	call Hook_Install
 	pop ix
@@ -77,7 +94,12 @@ MSXMidi_Uninstall:
 	ret z
 	di
 	push ix
-	ld de,MSXMidi.hook
+	ld de,MSXMidi.hook38H
+	add ix,de
+	call Hook_Uninstall
+	pop ix
+	push ix
+	ld de,MSXMidi.hookKEYI
 	add ix,de
 	call Hook_Uninstall
 	pop ix
