@@ -136,27 +136,27 @@ MSXMidi_Reset:
 	out (MSXMidi_UART_COMMAND),a
 	ret
 
-; ix = this
-; f <- z: no overrun
-MSXMidi_CheckOverrun: PROC
-	ld a,(ix + MSXMidi.found)
+; iy = this
+; f <- z: no error
+MSXMidi_CheckErrorIY: PROC
+	ld a,(iy + MSXMidi.found)
 	and a
 	ret z
 	in a,(MSXMidi_UART_STATUS)
 	and 00111000B
 	ret z
 	push af
-	ld a,(ix + MSXMidi.commandSave)
+	ld a,(iy + MSXMidi.commandSave)
 	or 00010000B
 	out (MSXMidi_UART_COMMAND),a
 	pop af
-	and 00001000B
+	bit 3,a
 	ld hl,MidiIn_parityErrorMessage
 	call nz,System_ThrowExceptionWithMessage
-	and 00010000B
+	bit 4,a
 	ld hl,MidiIn_overrunErrorMessage
 	call nz,System_ThrowExceptionWithMessage
-	and 00100000B
+	bit 5,a
 	ld hl,MidiIn_framingErrorMessage
 	call nz,System_ThrowExceptionWithMessage
 	ret

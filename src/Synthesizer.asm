@@ -162,6 +162,7 @@ Synthesizer_Process:
 	ld d,ixh
 	ld iy,Synthesizer.midiIn
 	add iy,de
+	call MSXMidi_CheckErrorIY
 	ld de,Synthesizer.channels
 	add ix,de
 	jp MidiIn_ProcessIY
