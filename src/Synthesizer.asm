@@ -100,16 +100,22 @@ Synthesizer_Destruct:
 	pop ix
 	ret
 
+; ix = this
+; ix <- MIDI In
 Synthesizer_GetMidiIn:
 	ld de,Synthesizer.midiIn
 	add ix,de
 	ret
 
+; ix = this
+; ix <- MSX Music
 Synthesizer_GetMSXMusic:
 	ld de,Synthesizer.msxMusic
 	add ix,de
 	ret
 
+; ix = this
+; ix <- PSG
 Synthesizer_GetPSG:
 	ld de,Synthesizer.psg
 	add ix,de
