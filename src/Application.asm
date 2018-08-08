@@ -219,4 +219,4 @@ Application_usageInstructions:
 	db "Usage: synthefm [options] <file.mid>",13,10
 	db 13,10
 	db "Options:",13,10
-	db "  /b  Enter blackout mode during playback.",13,10
+	db "  /b  Enter blackout mode during playback.",13,10,0
