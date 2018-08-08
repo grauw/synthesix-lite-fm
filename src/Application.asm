@@ -99,7 +99,6 @@ Application_GetSynthesizer:
 ; ix = this
 Application_EnterMainLoop:
 	call Application_ParseCLI
-	call Application_LoadFile
 	call Application_EnterBlackout
 	call Application_Play
 	ret
@@ -109,35 +108,17 @@ Application_ParseCLI:
 	push ix
 	call Application_GetCLI
 	call CLI_Parse
-	call CLI_GetPath
-	ld a,l
-	or h
-	ld hl,Application_usageInstructions
-	jp z,System_TerminateWithError
+;	call CLI_GetPath
+;	ld a,l
+;	or h
+;	ld hl,Application_usageInstructions
+;	jp z,System_TerminateWithError
 	pop ix
-	ret
-
-; ix = this
-Application_LoadFile:
-	call Application_PrintLoading
-	ret
-
-; ix = this
-Application_PrintLoading:
-	ld hl,Application_loadingFile
-	call System_Print
-	push ix
-	call Application_GetCLI
-	call CLI_GetPath
-	pop ix
-	call System_Print
-	ld hl,Application_dotDotDot
-	call System_Print
 	ret
 
 ; ix = this
 Application_Play:
-	ld hl,Application_playing
+	ld hl,Application_listening
 	call System_Print
 	push ix
 	call Application_GetSynthesizer
@@ -200,14 +181,8 @@ Application_explainBuffer:
 Application_welcome:
 	db "Synthesix Lite FM 1.0 by Grauw",13,10,10,0
 
-Application_loadingFile:
-	db "Loading ",0
-
-Application_dotDotDot:
-	db "...",13,10,0
-
-Application_playing:
-	db 13,10,"Playing...",13,10,0
+Application_listening:
+	db "Listening...",13,10,0
 
 Application_dos2RequiredError:
 	db "MSX-DOS 2 is required.",13,10,0
