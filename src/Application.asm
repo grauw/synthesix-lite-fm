@@ -4,6 +4,8 @@
 Application: MACRO
 	cli:
 		CLI
+	vblankHandler:
+		VBlankHandler
 	synthesizer:
 		Synthesizer
 	size:
@@ -64,6 +66,10 @@ Application_Construct:
 	call CLI_Construct
 	pop ix
 	push ix
+	call Application_GetVBlankHandler
+	call VBlankHandler_Construct
+	pop ix
+	push ix
 	call Application_GetSynthesizer
 	call Synthesizer_Construct
 	pop ix
@@ -77,6 +83,10 @@ Application_Destruct:
 	call Synthesizer_Destruct
 	pop ix
 	push ix
+	call Application_GetVBlankHandler
+	call VBlankHandler_Destruct
+	pop ix
+	push ix
 	call Application_GetCLI
 	call CLI_Destruct
 	pop ix
@@ -86,6 +96,13 @@ Application_Destruct:
 ; ix <- command-line interface
 Application_GetCLI:
 	ld de,Application.cli
+	add ix,de
+	ret
+
+; ix = this
+; ix <- vblank handler
+Application_GetVBlankHandler:
+	ld de,Application.vblankHandler
 	add ix,de
 	ret
 

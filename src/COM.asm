@@ -42,6 +42,7 @@ COM_Main:
 	INCLUDE "Application.asm"
 	INCLUDE "CLI.asm"
 	INCLUDE "Hook.asm"
+	INCLUDE "VBlankHandler.asm"
 	INCLUDE "MidiIn.asm"
 	INCLUDE "MSXMidi.asm"
 	INCLUDE "MSXMusic.asm"
