@@ -16,10 +16,10 @@ License: Simplified BSD License
 System Requirements
 -------------------
 
-  * MSX turbo R
-  * 128K main RAM
-  * 16K video RAM
-  * MSX-DOS 2
+* MSX turbo R
+* 128K main RAM
+* 16K video RAM
+* MSX-DOS 2
 
 
 Usage instructions
@@ -34,11 +34,11 @@ Usage:
 
 Options:
 
-  * `/b` Enter blackout mode during playback.
-    
-    This setting makes the screen go black during playback. For machines with a
-    lot of VDP interference on the audio output, this may reduce the amount of
-    interference.
+* `/b` Enter blackout mode during playback.
+  
+  This setting makes the screen go black during playback. For machines with a
+  lot of VDP interference on the audio output, this may reduce the amount of
+  interference.
 
 
 Development information
