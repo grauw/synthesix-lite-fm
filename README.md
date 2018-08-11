@@ -25,12 +25,11 @@ System Requirements
 Usage instructions
 ------------------
 
-Run SyntheFM from MSX-DOS 2, optionally specifying a MIDI file to play on the
-command line.
+Run SyntheFM from MSX-DOS 2.
 
 Usage:
 
-    synthefm [options] <file.mid>
+    synthefm [options]
 
 Options:
 

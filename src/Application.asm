@@ -208,7 +208,7 @@ Application_insufficientTPAError:
 	db "Insufficient TPA space.",13,10,0
 
 Application_usageInstructions:
-	db "Usage: synthefm [options] <file.mid>",13,10
+	db "Usage: synthefm [options]",13,10
 	db 13,10
 	db "Options:",13,10
 	db "  /b  Enter blackout mode during playback.",13,10,0
