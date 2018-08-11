@@ -83,8 +83,7 @@ Overlap the notes to play legato.
     14. Synthesizer Bass
     15. Acoustic Bass
     16. Electric Guitar
-  * Key-off velocity:
-    0-63: FM sustain, 64-127: no FM sustain
+  * Key-off velocity (< 63: FM sustain, ≥ 64: no FM sustain)
 
 * FM Basic channel 1
   * CC 16: Carrier Multiplier
