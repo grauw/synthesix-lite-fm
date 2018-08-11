@@ -65,51 +65,53 @@ All channels respond to:
 
 Overlap the notes to play legato.
 
-* FM Voice channels 1-9
-  * Program change:
-    1. Original
-    2. Violin
-    3. Guitar
-    4. Piano
-    5. Flute
-    6. Clarinet
-    7. Oboe
-    8. Trumpet
-    9. Organ
-    10. Horn
-    11. Synthesizer
-    12. Harpsicord
-    13. Vibraphone
-    14. Synthesizer Bass
-    15. Acoustic Bass
-    16. Electric Guitar
-  * Key-off velocity (< 63: FM sustain, ≥ 64: no FM sustain)
+FM Voice channels 1-9 respond to:
 
-* FM Basic channel 1
-  * CC 16: Carrier Multiplier
-  * CC 19: Carrier Level Key Scale
-  * CC 20: Carrier EG Attack
-  * CC 21: Carrier EG Decay
-  * CC 22: Carrier EG Sustain
-  * CC 23: Carrier EG Release
-  * CC 24: Modulator Multiplier
-  * CC 25: Modulator Level
-  * CC 26: Modulator Feedback
-  * CC 27: Modulator Level Key Scale
-  * CC 28: Modulator EG Attack
-  * CC 29: Modulator EG Decay
-  * CC 30: Modulator EG Sustain
-  * CC 31: Modulator EG Release
-  * CC 80: Carrier LFO Amplitude (≥ 64: on)
-  * CC 81: Carrier LFO Pitch (≥ 64: on)
-  * CC 82: Carrier EG Mode (< 64: percussive, ≥ 64: sustained (default))
-  * CC 83: Carrier EG Rate Key Scale (≥ 64: on)
-  * CC 84: Carrier PG Waveform (< 64: sine, ≥ 64: rectified half sine)
-  * CC 88: Modulator LFO Amplitude (≥ 64: on)
-  * CC 89: Modulator LFO Pitch (≥ 64: on)
-  * CC 90: Modulator EG Mode (< 64: percussive, ≥ 64: sustained (default))
-  * CC 91: Modulator EG Rate Key Scale (≥ 64: on)
-  * CC 92: Modulator PG Waveform (< 64: sine, ≥ 64: rectified half sine)
+* Program change:
+  1. Original
+  2. Violin
+  3. Guitar
+  4. Piano
+  5. Flute
+  6. Clarinet
+  7. Oboe
+  8. Trumpet
+  9. Organ
+  10. Horn
+  11. Synthesizer
+  12. Harpsicord
+  13. Vibraphone
+  14. Synthesizer Bass
+  15. Acoustic Bass
+  16. Electric Guitar
+* Key-off velocity (< 63: FM sustain, ≥ 64: no FM sustain)
+
+FM Basic channel 1 responds to:
+
+* CC 16: Carrier Multiplier
+* CC 19: Carrier Level Key Scale
+* CC 20: Carrier EG Attack
+* CC 21: Carrier EG Decay
+* CC 22: Carrier EG Sustain
+* CC 23: Carrier EG Release
+* CC 24: Modulator Multiplier
+* CC 25: Modulator Level
+* CC 26: Modulator Feedback
+* CC 27: Modulator Level Key Scale
+* CC 28: Modulator EG Attack
+* CC 29: Modulator EG Decay
+* CC 30: Modulator EG Sustain
+* CC 31: Modulator EG Release
+* CC 80: Carrier LFO Amplitude (≥ 64: on)
+* CC 81: Carrier LFO Pitch (≥ 64: on)
+* CC 82: Carrier EG Mode (< 64: percussive, ≥ 64: sustained (default))
+* CC 83: Carrier EG Rate Key Scale (≥ 64: on)
+* CC 84: Carrier PG Waveform (< 64: sine, ≥ 64: rectified half sine)
+* CC 88: Modulator LFO Amplitude (≥ 64: on)
+* CC 89: Modulator LFO Pitch (≥ 64: on)
+* CC 90: Modulator EG Mode (< 64: percussive, ≥ 64: sustained (default))
+* CC 91: Modulator EG Rate Key Scale (≥ 64: on)
+* CC 92: Modulator PG Waveform (< 64: sine, ≥ 64: rectified half sine)
 
 
 Development information
