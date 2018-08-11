@@ -16,7 +16,7 @@ License: Simplified BSD License
 System Requirements
 -------------------
 
-  * MSX2, MSX2+ or MSX turboR
+  * MSX turbo R
   * 128K main RAM
   * 16K video RAM
   * MSX-DOS 2
