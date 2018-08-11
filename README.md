@@ -6,7 +6,7 @@ Copyright 2018 Laurens Holst
 Project information
 -------------------
 
-Simple MIDI synthesizer for OPLL and PSG.
+Simple MIDI synthesizer for MSX-MUSIC (YM2413 OPLL) and PSG.
 
 Author: Laurens Holst <laurens.nospam@grauw.nl>  
 Site: <https://bitbucket.org/grauw/synthesix-lite-fm>  
