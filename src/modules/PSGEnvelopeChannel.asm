@@ -5,7 +5,7 @@ PSGEnvelopeChannel: MACRO ?psg, ?channel
 	channel: Channel
 	shape: Clamp channel.program, Constants_instance + 0, Constants_instance + 7
 	gate: Or channel.note.gate, channel.controllers + 64
-	psgEnvelope: PSGEnvelope ?psg, ?channel, shape.value, channel.note.key, gate.value
+	psgEnvelope: PSGEnvelope ?psg, ?channel, shape.value, channel.note.key, Constants_instance + 0, gate.value
 	Update:
 		call shape.Update
 		call gate.Update

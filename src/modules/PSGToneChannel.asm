@@ -6,7 +6,7 @@ PSGToneChannel: MACRO ?psg, ?channel
 	gate: Or channel.note.gate, channel.controllers + 64
 	volumeControllers: Attenuate channel.controllers + 7, channel.controllers + 11
 	volume: Attenuate channel.note.velocity, volumeControllers.value
-	psgTone: PSGTone ?psg, ?channel, channel.note.key, gate.value, volume.value
+	psgTone: PSGTone ?psg, ?channel, channel.note.key, Constants_instance + 0, gate.value, volume.value
 	Update:
 		call gate.Update
 		call volumeControllers.Update

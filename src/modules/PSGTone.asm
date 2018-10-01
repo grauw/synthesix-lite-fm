@@ -1,7 +1,7 @@
 ;
 ;
 ;
-PSGTone: MACRO ?psg, ?channel, ?key, ?gate, ?volume
+PSGTone: MACRO ?psg, ?channel, ?key, ?keyFraction, ?gate, ?volume
 	WriteRegister: equ ?psg + PSG.WriteRegister
 	ReadRegister: equ ?psg + PSG.ReadRegister
 	Update:
@@ -19,16 +19,15 @@ PSGTone: MACRO ?psg, ?channel, ?key, ?gate, ?volume
 		ld a,08H + ?channel
 		call WriteRegister
 		ld a,(?key)
+		ld b,a
+		ld a,(?keyFraction)
 		add a,a
-		ld e,a
-		ld d,0
-		ld hl,PSGTone_frequencyTable
-		add hl,de
-		ld d,(hl)
+		ld c,a
+		call PSGTone_GetPeriod
+		ld d,l
 		ld a,00H + ?channel * 2
 		call WriteRegister
-		inc hl
-		ld d,(hl)
+		ld d,h
 		ld a,01H + ?channel * 2
 		call WriteRegister
 		ld a,07H
@@ -43,3 +42,19 @@ PSGTone: MACRO ?psg, ?channel, ?key, ?gate, ?volume
 		ld a,07H
 		jp WriteRegister
 	ENDM
+
+; b = note number
+; c = fraction
+; hl <- period
+PSGTone_GetPeriod:
+	ld hl,0AAABH  ; de = hl * (1 / 1.5)
+	muluw hl,bc
+	ld hl,-2580  ; (69 / 12 - log2(440) - log2(16) + log2(3579545) - 16) * 2048
+	and a
+	sbc hl,de
+	call Math_Pow2
+	ld a,h
+	and ~0FH
+	ret z
+	ld hl,0FFFH  ; clamp
+	ret

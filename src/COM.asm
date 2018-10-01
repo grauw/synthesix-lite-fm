@@ -38,6 +38,7 @@ COM_Main:
 	INCLUDE "Mapper.asm"
 	INCLUDE "Heap.asm"
 	INCLUDE "HeapTest.asm"
+	INCLUDE "Math.asm"
 	INCLUDE "VDP.asm"
 	INCLUDE "Application.asm"
 	INCLUDE "CLI.asm"
@@ -48,7 +49,6 @@ COM_Main:
 	INCLUDE "MSXMusic.asm"
 	INCLUDE "PSG.asm"
 	INCLUDE "Synthesizer.asm"
-	INCLUDE "Resources.asm"
 	INCLUDE "modules/Channel.asm"
 	INCLUDE "modules/Note.asm"
 	INCLUDE "modules/Constants.asm"
@@ -73,5 +73,11 @@ COM_Main:
 
 Heap_main:
 	Heap HEAP, HEAP_SIZE
+
+	ENDS
+
+	SECTION TPA_PAGE1
+
+	INCLUDE "Resources.asm"
 
 	ENDS
