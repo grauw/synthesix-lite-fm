@@ -49,10 +49,12 @@ PSGTone: MACRO ?psg, ?channel, ?key, ?keyFraction, ?gate, ?volume
 PSGTone_GetPeriod:
 	ld hl,0AAABH  ; de = hl * (1 / 1.5)
 	muluw hl,bc
-	ld hl,-2580  ; (69 / 12 - log2(440) - log2(16) + log2(3579545) - 16) * 2048
+	ld hl,13803  ; (69 / 12 - log2(440) - log2(16) + log2(3579545) - 8) * 2048
 	and a
 	sbc hl,de
 	call Math_Pow2
+	ld l,h
+	ld h,e
 	ld a,h
 	and ~0FH
 	ret z
