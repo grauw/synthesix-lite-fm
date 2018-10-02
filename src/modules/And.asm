@@ -1,7 +1,7 @@
 ;
 ;
 ;
-Or: MACRO ?a, ?b
+And: MACRO ?a, ?b
 	value:
 		db 0
 	Update:
