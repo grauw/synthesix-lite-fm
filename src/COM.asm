@@ -66,6 +66,7 @@ COM_Main:
 	INCLUDE "modules/Not.asm"
 	INCLUDE "modules/Or.asm"
 	INCLUDE "modules/Attenuate.asm"
+	INCLUDE "modules/PitchBend.asm"
 
 	ENDS
 

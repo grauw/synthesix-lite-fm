@@ -9,7 +9,8 @@ OPLLChannel: MACRO ?msxMusic, ?channel
 	sustain: Or sustainVelocity.value, channel.controllers + 69
 	volumeControllers: Attenuate channel.controllers + 7, channel.controllers + 11
 	volume: Attenuate channel.note.velocity, volumeControllers.value
-	opllTone: OPLLTone ?msxMusic, ?channel, instrument.value, volume.value, gate.value, channel.note.trigger, channel.note.key, Constants_instance + 0, sustain.value
+	pitchBend: PitchBend channel.pitchBend + 1, channel.pitchBend, channel.note.key, Constants_instance + 0, Constants_instance + 2, Constants_instance + 0
+	opllTone: OPLLTone ?msxMusic, ?channel, instrument.value, volume.value, gate.value, channel.note.trigger, pitchBend.note, pitchBend.noteFraction, sustain.value
 	Update:
 		call instrument.Update
 		call gate.Update
@@ -17,5 +18,6 @@ OPLLChannel: MACRO ?msxMusic, ?channel
 		call sustain.Update
 		call volumeControllers.Update
 		call volume.Update
+		call pitchBend.Update
 		jp opllTone.Update
 	ENDM
