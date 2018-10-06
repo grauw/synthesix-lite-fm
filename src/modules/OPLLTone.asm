@@ -72,6 +72,12 @@ OPLLTone_GetFNumBlock: PROC
 	jp m,Continue
 	cp 8 << 3
 	jr nc,Clamp
+	bit 2,h
+	jr z,NoAdjust
+	cp 7 << 3
+	jr nc,NoAdjust
+	add a,1 << 3  ; make half the octave keys have fnum < 256 for key scaling
+NoAdjust:
 	ld c,a
 	ld a,h
 	sub c
