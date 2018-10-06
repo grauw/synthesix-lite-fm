@@ -26,9 +26,8 @@ PositiveExponent:
 	ret z
 PositiveShiftLoop:
 	add hl,hl
-	ex de,hl
-	adc hl,hl
-	ex de,hl
+	rl e
+	rl d
 	djnz PositiveShiftLoop
 	ret
 NegativeExponent:
