@@ -23,11 +23,7 @@ RAM: equ RAM_PAGE1
 
 	SECTION TPA
 
-;
-; Program entry point
-;
-COM_Main:
-	jp Application_Main
+	DOS2Runtime Application_Main
 
 	INCLUDE "DOS.asm"
 	INCLUDE "BIOS.asm"
@@ -35,11 +31,11 @@ COM_Main:
 	INCLUDE "System.asm"
 	INCLUDE "Memory.asm"
 	INCLUDE "MemoryTest.asm"
-	INCLUDE "Mapper.asm"
 	INCLUDE "Heap.asm"
 	INCLUDE "HeapTest.asm"
 	INCLUDE "Math.asm"
 	INCLUDE "VDP.asm"
+	INCLUDE "DOS2Runtime.asm"
 	INCLUDE "Application.asm"
 	INCLUDE "CLI.asm"
 	INCLUDE "Hook.asm"
