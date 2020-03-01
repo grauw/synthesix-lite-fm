@@ -8,18 +8,20 @@ Project information
 
 Simple MIDI synthesizer for MSX-MUSIC (YM2413 OPLL) and PSG.
 
-Author: Laurens Holst <laurens.nospam@grauw.nl>  
-Site: <https://bitbucket.org/grauw/synthesix-lite-fm>  
-License: Simplified BSD License
+  * Author: Laurens Holst <laurens@grauw.nl>
+  * Site: <http://www.grauw.nl/projects/synthesix-lite-fm/>
+  * Source: <https://hg.sr.ht/~grauw/synthesix-lite-fm>
+  * Support: <https://www.msx.org/forum/msx-talk/graphics-and-music/synthesix-lite-fm>
+  * License: Simplified BSD License
 
 
-System Requirements
+System requirements
 -------------------
 
-* MSX turbo R
-* 128K main RAM
-* 16K video RAM
-* MSX-DOS 2
+  * MSX turbo R
+  * 128K main RAM
+  * 16K video RAM
+  * MSX-DOS 2
 
 
 Usage instructions
@@ -129,8 +131,8 @@ at the correct version, otherwise you have to download them manually:
 
     hg clone https://bitbucket.org/grauw/synthesix-lite-fm
 
-Building the project is really easy on all modern desktop platforms. On MacOS
-and Linux, simply invoke `make` to build the binary and symbol files into the
+Building the project is easy on all modern desktop platforms. On MacOS and
+Linux, simply invoke `make` to build the binary and symbol files into the
 `bin` directory:
 
     make
@@ -141,6 +143,6 @@ target into the Windows command prompt.
 To launch the build in openMSX after building, put a copy of `MSXDOS2.SYS` and
 `COMMAND2.COM` and in the `bin` directory, and invoke the `make run` command.
 
-Note that the [glass](https://bitbucket.org/grauw/glass) assembler which is
+Note that the [glass](http://www.grauw.nl/projects/glass/) assembler which is
 embedded in the project requires [Java 8](http://java.com/getjava). To check
 your Java version, invoke the `java -version` command.
