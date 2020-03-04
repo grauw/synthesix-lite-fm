@@ -129,7 +129,7 @@ Synthesix Lite FM depends on the library project Neonlib; it is recommended
 to clone the project with Mercurial so they will automatically be pulled in
 at the correct version, otherwise you have to download them manually:
 
-    hg clone https://bitbucket.org/grauw/synthesix-lite-fm
+    hg clone https://hg.sr.ht/~grauw/synthesix-lite-fm
 
 Building the project is easy on all modern desktop platforms. On MacOS and
 Linux, simply invoke `make` to build the binary and symbol files into the
