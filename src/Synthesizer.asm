@@ -41,7 +41,7 @@ Synthesizer: MACRO
 	psgChannel3: PSGToneChannel psg, 2
 	psgChannel4: PSGNoiseChannel psg, 1
 	psgChannel5: PSGEnvelopeChannel psg, 2
-	dummyChannel: Channel
+	dummyChannel: MIDIChannel
 	Update:
 		call opllChannel1.Update
 		call opllChannel2.Update
@@ -59,7 +59,7 @@ Synthesizer: MACRO
 		call psgChannel5.Update
 		REPT 16, ?channel
 		ld ix,(channels + ?channel * 2)
-		call Channel_ClearTriggers
+		call MIDIChannel_ClearTriggers
 		ENDM
 		ret
 	ENDM

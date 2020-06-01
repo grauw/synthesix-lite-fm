@@ -234,16 +234,16 @@ Status100:
 	add a,a
 	jr c,Status1001
 Status1000:
-	Message2Data_M Channel_NoteOff
+	Message2Data_M MIDIChannel_NoteOff
 Status1001:
-	Message2Data_M Channel_NoteOn
+	Message2Data_M MIDIChannel_NoteOn
 Status101:
 	add a,a
 	jr c,Status1011
 Status1010:
-	Message2Data_M Channel_PolyPressure
+	Message2Data_M MIDIChannel_PolyPressure
 Status1011:
-	Message2Data_M Channel_ControlChange
+	Message2Data_M MIDIChannel_ControlChange
 Skip:
 	ld (iy + MidiIn.bufferTail),l
 	ret
@@ -254,14 +254,14 @@ Status110:
 	add a,a
 	jr c,Status1101
 Status1100:
-	Message1Data_M Channel_ProgramChange
+	Message1Data_M MIDIChannel_ProgramChange
 Status1101:
-	Message1Data_M Channel_ChannelPressure
+	Message1Data_M MIDIChannel_ChannelPressure
 Status111:
 	add a,a
 	jr c,Status1111
 Status1110:
-	Message2Data_M Channel_PitchBendChange
+	Message2Data_M MIDIChannel_PitchBendChange
 Status1111:
 	ld (iy + MidiIn.bufferTail),l
 	ld (iy + MidiIn.runningStatus),0

@@ -2,7 +2,7 @@
 ;
 ;
 OPLLChannel: MACRO ?msxMusic, ?channel
-	channel: Channel
+	channel: MIDIChannel
 	instrument: Clamp channel.program, Constants_instance + 0, Constants_instance + 15
 	gate: Or channel.note.gate, channel.controllers + 64
 	sustainVelocity: Not channel.note.offVelocity

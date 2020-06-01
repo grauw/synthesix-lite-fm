@@ -1,7 +1,7 @@
 ;
 ;
 ;
-Note: MACRO
+MIDINote: MACRO
 	gate:
 		db 0
 	trigger:

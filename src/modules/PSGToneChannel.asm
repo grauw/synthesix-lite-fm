@@ -2,7 +2,7 @@
 ;
 ;
 PSGToneChannel: MACRO ?psg, ?channel
-	channel: Channel
+	channel: MIDIChannel
 	gate: Or channel.note.gate, channel.controllers + 64
 	volumeControllers: Attenuate channel.controllers + 7, channel.controllers + 11
 	volume: Attenuate channel.note.velocity, volumeControllers.value
