@@ -6,9 +6,8 @@ all:
 	java -jar tools/glass.jar -I gen -I lib/neonlib/src src/COM.asm bin/synthefm.com bin/synthefm.sym
 
 dist: all
-	cp README.md CHANGES.md LICENSE bin/
 	rm -f bin/synthefm.zip
-	cd bin && zip synthefm.zip synthefm.com README.md CHANGES.md LICENSE
+	zip -j bin/synthefm.zip bin/synthefm.com README.md CHANGES.md LICENSE
 
 copy: all
 	cp bin/synthefm.com $(COPY_TARGET)/
