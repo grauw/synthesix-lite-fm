@@ -6,57 +6,62 @@ Synthesizer_CHANNELS: equ 16
 Synthesizer: MACRO
 	midiIn:
 		MSXMidi
-	msxMusic:
-		MSXMusic
-	psg:
-		PSG
 	channels:
-		dw opllChannel1.channel
-		dw opllChannel2.channel
-		dw opllChannel3.channel
-		dw opllChannel4.channel
-		dw opllChannel5.channel
-		dw opllChannel6.channel
-		dw opllChannel7.channel
-		dw opllChannel8.channel
-		dw opllChannel9.channel
-		dw dummyChannel
-		dw dummyChannel
-		dw psgChannel1.channel
-		dw psgChannel2.channel
-		dw psgChannel3.channel
-		dw psgChannel4.channel
-		dw psgChannel5.channel
-	opllChannel1: OPLLBasicChannel msxMusic, 0
-	opllChannel2: OPLLChannel msxMusic, 1
-	opllChannel3: OPLLChannel msxMusic, 2
-	opllChannel4: OPLLChannel msxMusic, 3
-	opllChannel5: OPLLChannel msxMusic, 4
-	opllChannel6: OPLLChannel msxMusic, 5
-	opllChannel7: OPLLChannel msxMusic, 6
-	opllChannel8: OPLLChannel msxMusic, 7
-	opllChannel9: OPLLChannel msxMusic, 8
-	psgChannel1: PSGToneChannel psg, 0
-	psgChannel2: PSGToneChannel psg, 1
-	psgChannel3: PSGToneChannel psg, 2
-	psgChannel4: PSGNoiseChannel psg, 1
-	psgChannel5: PSGEnvelopeChannel psg, 2
-	dummyChannel: MIDIChannel
+		dw channel1.channel
+		dw channel2.channel
+		dw channel3.channel
+		dw channel4.channel
+		dw channel5.channel
+		dw channel6.channel
+		dw channel7.channel
+		dw channel8.channel
+		dw channel9.channel
+		dw channel10.channel
+		dw channel11.channel
+		dw channel12.channel
+		dw channel13.channel
+		dw channel14.channel
+		dw channel15.channel
+		dw channel16.channel
+	channel1: Channel
+	channel2: Channel
+	channel3: Channel
+	channel4: Channel
+	channel5: Channel
+	channel6: Channel
+	channel7: Channel
+	channel8: Channel
+	channel9: Channel
+	channel10: Channel
+	channel11: Channel
+	channel12: Channel
+	channel13: Channel
+	channel14: Channel
+	channel15: Channel
+	channel16: Channel
+	msxMusic:
+		MSXMusic channel1, channel2, channel3, channel4, channel5, channel6, channel7, channel8, channel9, channel10, channel11
+	psg:
+		PSG channel12, channel13, channel14, channel15, channel16
 	Update:
-		call opllChannel1.Update
-		call opllChannel2.Update
-		call opllChannel3.Update
-		call opllChannel4.Update
-		call opllChannel5.Update
-		call opllChannel6.Update
-		call opllChannel7.Update
-		call opllChannel8.Update
-		call opllChannel9.Update
-		call psgChannel1.Update
-		call psgChannel2.Update
-		call psgChannel3.Update
-		call psgChannel4.Update
-		call psgChannel5.Update
+		call channel1.Update
+		call channel2.Update
+		call channel3.Update
+		call channel4.Update
+		call channel5.Update
+		call channel6.Update
+		call channel7.Update
+		call channel8.Update
+		call channel9.Update
+		call channel10.Update
+		call channel11.Update
+		call channel12.Update
+		call channel13.Update
+		call channel14.Update
+		call channel15.Update
+		call channel16.Update
+		call psg.Update
+		call msxMusic.Update
 		REPT 16, ?channel
 		ld ix,(channels + ?channel * 2)
 		call MIDIChannel_ClearTriggers

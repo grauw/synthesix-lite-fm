@@ -7,7 +7,8 @@ MSXMusic_ID_ADDRESS: equ 4018H
 MSXMusic_ENABLE_ADDRESS: equ 7FF6H
 MSXMusic_FREQUENCY: equ 3579545
 
-MSXMusic: MACRO
+MSXMusic: MACRO ?channel1, ?channel2, ?channel3, ?channel4, ?channel5, ?channel6, ?channel7, ?channel8, ?channel9, ?channel10, ?channel11
+	this:
 	slot:
 		db 0
 	internal:
@@ -28,6 +29,32 @@ MSXMusic: MACRO
 		in a,(09AH)  ; R800 wait: ~72 cycles
 		in a,(09AH)
 		ret
+
+	voice: OPLLVoice this, ?channel1.controllers + 80, ?channel1.controllers + 81, ?channel1.controllers + 82, ?channel1.controllers + 83, ?channel1.controllers + 84,
+	                       ?channel1.controllers + 16, ?channel1.controllers + 19, ?channel1.controllers + 20, ?channel1.controllers + 21, ?channel1.controllers + 22, ?channel1.controllers + 23,
+	                       ?channel1.controllers + 88, ?channel1.controllers + 89, ?channel1.controllers + 90, ?channel1.controllers + 91, ?channel1.controllers + 92,
+	                       ?channel1.controllers + 24, ?channel1.controllers + 25, ?channel1.controllers + 26, ?channel1.controllers + 27, ?channel1.controllers + 28, ?channel1.controllers + 29, ?channel1.controllers + 30, ?channel1.controllers + 31
+	tone1: OPLLTone this, 0, ?channel1.program, ?channel1.volume, ?channel1.gate, ?channel1.trigger, ?channel1.note, ?channel1.noteFraction, ?channel1.sustain
+	tone2: OPLLTone this, 1, ?channel2.program, ?channel2.volume, ?channel2.gate, ?channel2.trigger, ?channel2.note, ?channel2.noteFraction, ?channel2.sustain
+	tone3: OPLLTone this, 2, ?channel3.program, ?channel3.volume, ?channel3.gate, ?channel3.trigger, ?channel3.note, ?channel3.noteFraction, ?channel3.sustain
+	tone4: OPLLTone this, 3, ?channel4.program, ?channel4.volume, ?channel4.gate, ?channel4.trigger, ?channel4.note, ?channel4.noteFraction, ?channel4.sustain
+	tone5: OPLLTone this, 4, ?channel5.program, ?channel5.volume, ?channel5.gate, ?channel5.trigger, ?channel5.note, ?channel5.noteFraction, ?channel5.sustain
+	tone6: OPLLTone this, 5, ?channel6.program, ?channel6.volume, ?channel6.gate, ?channel6.trigger, ?channel6.note, ?channel6.noteFraction, ?channel6.sustain
+	tone7: OPLLTone this, 6, ?channel7.program, ?channel7.volume, ?channel7.gate, ?channel7.trigger, ?channel7.note, ?channel7.noteFraction, ?channel7.sustain
+	tone8: OPLLTone this, 7, ?channel8.program, ?channel8.volume, ?channel8.gate, ?channel8.trigger, ?channel8.note, ?channel8.noteFraction, ?channel8.sustain
+	tone9: OPLLTone this, 8, ?channel9.program, ?channel9.volume, ?channel9.gate, ?channel9.trigger, ?channel9.note, ?channel9.noteFraction, ?channel9.sustain
+
+	Update:
+		call voice.Update
+		call tone1.Update
+		call tone2.Update
+		call tone3.Update
+		call tone4.Update
+		call tone5.Update
+		call tone6.Update
+		call tone7.Update
+		call tone8.Update
+		jp tone9.Update
 	ENDM
 
 ; a = slot
