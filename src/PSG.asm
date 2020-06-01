@@ -6,7 +6,7 @@ PSG_DATA_WRITE: equ 0A1H
 PSG_DATA_READ: equ 0A2H
 PSG_FREQUENCY: equ 1789773
 
-PSG: MACRO ?address = PSG_ADDRESS, ?dataWrite = PSG_DATA_WRITE, ?dataRead = PSG_DATA_READ
+PSG: MACRO
 	; e = register
 	; d = value
 	SafeWriteRegister:
@@ -19,10 +19,10 @@ PSG: MACRO ?address = PSG_ADDRESS, ?dataWrite = PSG_DATA_WRITE, ?dataRead = PSG_
 	; d = value
 	WriteRegister:
 		di
-		out (?address),a
+		out (PSG_ADDRESS),a
 		ld a,d
 		ei
-		out (?dataWrite),a
+		out (PSG_DATA_WRITE),a
 		ret
 	MaskMixer:
 		ld a,d
@@ -36,9 +36,9 @@ PSG: MACRO ?address = PSG_ADDRESS, ?dataWrite = PSG_DATA_WRITE, ?dataRead = PSG_
 	; a <- value
 	ReadRegister:
 		di
-		out (?address),a
+		out (PSG_ADDRESS),a
 		ei
-		in a,(?dataRead)
+		in a,(PSG_DATA_READ)
 		ret
 	ENDM
 
