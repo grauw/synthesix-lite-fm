@@ -10,7 +10,7 @@ Simple MIDI synthesizer for MSX-MUSIC (YM2413 OPLL) and PSG.
 
   * Author: Laurens Holst <laurens@grauw.nl>
   * Site: <http://www.grauw.nl/projects/synthesix-lite-fm/>
-  * Source: <https://hg.sr.ht/~grauw/synthesix-lite-fm>
+  * Source: <https://github.com/grauw/synthesix-lite-fm>
   * Support: <https://www.msx.org/forum/msx-talk/graphics-and-music/synthesix-lite-fm>
   * License: Simplified BSD License
 
@@ -125,11 +125,11 @@ places mentioned in the project information section.
 You are also free to re-use code for your own projects, provided you abide by
 the license terms.
 
-Synthesix Lite FM depends on the library project Neonlib; it is recommended
-to clone the project with Mercurial so they will automatically be pulled in
-at the correct version, otherwise you have to download them manually:
+Synthesix Lite FM depends on the library project Neonlib, which is included as
+a Git submodule. Clone the project and its submodules at the correct versions
+with:
 
-    hg clone https://hg.sr.ht/~grauw/synthesix-lite-fm
+    git clone --recurse-submodules https://github.com/grauw/synthesix-lite-fm.git
 
 Building the project is easy on all modern desktop platforms. On MacOS and
 Linux, simply invoke `make` to build the binary and symbol files into the
